@@ -68,7 +68,7 @@ public class MonitorHandler extends IoHandlerAdapter {
 		errorParams.put("Total Time", timespent);
 		errorParams.put("Log Line", logLine);
 		Agent.instance().getDefaultRPMService().getErrorService().reportError(new HttpTracedError(path,
-				(int)status,"HTTP - " + path,path,errorParams,System.currentTimeMillis()));
+				(int)status,"HTTP - " + status,path,errorParams,System.currentTimeMillis()));
 	}
 
 	private void reportParserError(String logLine, Throwable t) {
