@@ -51,9 +51,16 @@ var retryConnectOnFailure = function(retryInMilliseconds) {
   }
 
 socket.connect(9999);
+
 exports.log = function(data){
 	if (connected) {
-		log.inf("Mensaje a enviar: "+JSON.stringify(data));
 		socket.write(JSON.stringify(data)+"\n");
+	}
+};
+
+exports.logRequest = function(req, res, timespent){    
+	if (connected) {
+		socket.write("{timespent:"+timespent+", path:"+path+", httpStatus:"+res.statusCode+", httpMethod:"+req.method" }\n");
+		socket.write("\n");
 	}
 };
