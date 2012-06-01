@@ -1935,3 +1935,5 @@ Jun 1, 2012 6:07:30 PM NewRelic INFO: The agent received 3 url normalization rul
 Jun 1, 2012 6:07:30 PM NewRelic INFO: Errors will be sent to the RPM service
 Jun 1, 2012 6:07:30 PM NewRelic FINE: JMX Service : querying MBeans (0)
 Jun 1, 2012 6:07:30 PM NewRelic FINE: Reported 4 timeslices
+Jun 1, 2012 6:08:31 PM NewRelic FINE: JMX Service : querying MBeans (0)
+Jun 1, 2012 6:08:33 PM NewRelic FINE: Reported 30 timeslices
