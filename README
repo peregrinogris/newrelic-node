@@ -20,4 +20,7 @@ JAVA 1.6
 Como funciona?
 Como newrelic no tiene soporte nativo para nodejs, lo que hace el modulo es levantar un proceso java que usa la api de nodejs para loguear las transacciones.
 
+Herramientas usadas:
+	Mina (mina.apache.org)
+
 
