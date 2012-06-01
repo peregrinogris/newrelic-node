@@ -1,0 +1,17 @@
+Agente de newrelic para node.
+
+Instalación
+	npm install newrelic-node
+
+Configuración
+Editar el archivo newrelic/newrelic.yml con la license_key y app_name de la aplicación correspodiente.
+
+Uso:
+	var newrelic = require( "../newrelic-node.js" );
+	newrelic.log({timespent:5000, path:"/test", httpStatus:500, httpMethod:"GET"});
+	
+o
+	var newrelic = require( "../newrelic-node.js" );
+	newrelic.log(request, responsse, timespent);
+	
+
