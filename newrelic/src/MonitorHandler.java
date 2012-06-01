@@ -35,7 +35,7 @@ public class MonitorHandler extends IoHandlerAdapter {
 			String path = json.containsKey("path") ? (String)json.get("path") : "-";
 			String method = json.containsKey("httpMethod") ? (String)json.get("httpMethod") : "-";
 			long timespent = json.containsKey("timespent") ? (Long)json.get("timespent") : 0;
-			int status = json.containsKey("httpStatus") ? (Integer)json.get("httpStatus") : 0;
+			long status = json.containsKey("httpStatus") ? (Long)json.get("httpStatus") : 0;
 			
 			StatsEngine.getApdexStats(MetricSpec.APDEX).recordApdexResponseTime(timespent);
 			StatsEngine.getResponseTimeStats(MetricSpec.DISPATCHER).recordResponseTime(timespent);
@@ -60,15 +60,15 @@ public class MonitorHandler extends IoHandlerAdapter {
 			((SocketSessionConfig) session.getConfig() ).setReceiveBufferSize( 2048 );
 	}
 
-	private static void reportAppError(String logLine, int status, String path, String method, long timespent) {
+	private static void reportAppError(String logLine, long status, String path, String method, long timespent) {
 		Map<String, Object> errorParams = Maps.newHashMap();
 		errorParams.put(RequestDispatcherTracer.REQUEST_PARAMETERS_PARAMETER_NAME, Collections.EMPTY_MAP);
-		errorParams.put("Status", status);
+		errorParams.put("Status", (int)status);
 		errorParams.put("Method", method);
 		errorParams.put("Total Time", timespent);
 		errorParams.put("Log Line", logLine);
 		Agent.instance().getDefaultRPMService().getErrorService().reportError(new HttpTracedError(path,
-				status,"HTTP - " + path,path,errorParams,System.currentTimeMillis()));
+				(int)status,"HTTP - " + path,path,errorParams,System.currentTimeMillis()));
 	}
 
 	private void reportParserError(String logLine, Throwable t) {

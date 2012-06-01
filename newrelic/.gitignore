@@ -1,1 +1,4 @@
 *.class
+newrelic_agent.*
+monitor.log
+monitor.err

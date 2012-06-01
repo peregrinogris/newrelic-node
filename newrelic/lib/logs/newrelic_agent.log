@@ -1937,3 +1937,79 @@ Jun 1, 2012 6:07:30 PM NewRelic FINE: JMX Service : querying MBeans (0)
 Jun 1, 2012 6:07:30 PM NewRelic FINE: Reported 4 timeslices
 Jun 1, 2012 6:08:31 PM NewRelic FINE: JMX Service : querying MBeans (0)
 Jun 1, 2012 6:08:33 PM NewRelic FINE: Reported 30 timeslices
+Jun 1, 2012 6:09:33 PM NewRelic FINE: JMX Service : querying MBeans (0)
+Jun 1, 2012 6:09:35 PM NewRelic FINE: Reported 30 timeslices
+Jun 1, 2012 6:10:35 PM NewRelic FINE: JMX Service : querying MBeans (0)
+Jun 1, 2012 6:10:37 PM NewRelic FINE: Reported 30 timeslices
+Jun 1, 2012 6:11:37 PM NewRelic FINE: JMX Service : querying MBeans (0)
+Jun 1, 2012 6:11:40 PM NewRelic FINE: Reported 30 timeslices
+Jun 1, 2012 6:12:05 PM NewRelic INFO: The New Relic Agent is shutting down.
+Jun 1, 2012 6:12:05 PM NewRelic INFO: Agent stopped with 2 pending jobs
+Jun 1, 2012 6:12:05 PM NewRelic FINE: Stopped Worker and Sampler Threads
+Jun 1, 2012 6:12:05 PM NewRelic INFO: The New Relic Agent has shutdown.
+Jun 1, 2012 6:12:10 PM NewRelic INFO: Writing to NewRelic log file : /home/mrege/workspace/newrelic-node/newrelic/lib/logs/newrelic_agent.log
+Jun 1, 2012 6:12:10 PM NewRelic CONFIG: Configured to connect to RPM production at collector.newrelic.com:80
+Jun 1, 2012 6:12:10 PM NewRelic FINE: Created Agent
+Jun 1, 2012 6:12:10 PM NewRelic FINE: Booting RPM Agent from Premain (-javaagent)
+Jun 1, 2012 6:12:10 PM NewRelic FINE: Started CPU Sampler
+Jun 1, 2012 6:12:10 PM NewRelic FINE: Started Worker and Sampler Threads
+Jun 1, 2012 6:12:10 PM NewRelic INFO: New Relic Agent v1.2.005 started
+Jun 1, 2012 6:12:11 PM NewRelic SEVERE: An ASM array bounds exception occurred transforming class MonitorHandler (1,787 bytes) : java.lang.ArrayIndexOutOfBoundsException: -1
+Jun 1, 2012 6:12:11 PM NewRelic INFO: ASM error for pointcut(s) : strong [] / weak [null, com.newrelic.agent.instrumentation.pointcuts.MathCSConcurrentPointCut, quartz_job, com.newrelic.agent.instrumentation.pointcuts.XmlRpcPointCut, com.newrelic.agent.instrumentation.pointcuts.commons.HttpMethodPointCut, com.newrelic.agent.instrumentation.pointcuts.database.BatchSqlPointCut, jdbc_prepare_statement, jdbc_data_source, jdbc_prepared_statement, jdbc_statement, com.newrelic.agent.instrumentation.pointcuts.frameworks.ProcessActionPortletPointCut, com.newrelic.agent.instrumentation.pointcuts.frameworks.RenderPortletPointCut, com.newrelic.agent.instrumentation.pointcuts.frameworks.faces.LifecyclePointCut, com.newrelic.agent.instrumentation.pointcuts.frameworks.spring.HandlerInterceptorPointCut, com.newrelic.agent.instrumentation.pointcuts.frameworks.spring.SpringPointCut, com.newrelic.agent.instrumentation.pointcuts.frameworks.struts.Struts2ActionPointCut, com.newrelic.agent.instrumentation.pointcuts.frameworks.struts.StrutsActionPointCut, com.newrelic.agent.instrumentation.pointcuts.frameworks.struts.XWork2ResultPC, com.newrelic.agent.instrumentation.pointcuts.net.HttpURLConnectionPointCut, com.newrelic.agent.instrumentation.pointcuts.servlet.HttpServletPointCut, com.newrelic.agent.instrumentation.pointcuts.servlet.ServletContextListenerPointCut, com.newrelic.agent.instrumentation.pointcuts.servlet.ServletFilterPointCut, com.newrelic.agent.instrumentation.pointcuts.servlet.ServletInitPointCut, com.newrelic.agent.instrumentation.pointcuts.servlet.ServletPointCut, com.newrelic.agent.instrumentation.pointcuts.servlet.ServletRequestPointCut, com.newrelic.agent.instrumentation.pointcuts.solr.SearchComponentPointCut, com.newrelic.agent.instrumentation.pointcuts.solr.SolrRequestHandlerPointCut]
+Jun 1, 2012 6:12:11 PM NewRelic INFO: The New Relic Agent is shutting down.
+Jun 1, 2012 6:12:11 PM NewRelic INFO: Agent stopped with 4 pending jobs
+Jun 1, 2012 6:12:11 PM NewRelic FINE: Stopped Worker and Sampler Threads
+Jun 1, 2012 6:12:11 PM NewRelic INFO: The New Relic Agent has shutdown.
+Jun 1, 2012 6:13:11 PM NewRelic INFO: Writing to NewRelic log file : /home/mrege/workspace/newrelic-node/newrelic/lib/logs/newrelic_agent.log
+Jun 1, 2012 6:13:11 PM NewRelic CONFIG: Configured to connect to RPM production at collector.newrelic.com:80
+Jun 1, 2012 6:13:11 PM NewRelic FINE: Created Agent
+Jun 1, 2012 6:13:11 PM NewRelic FINE: Booting RPM Agent from Premain (-javaagent)
+Jun 1, 2012 6:13:12 PM NewRelic FINE: Started CPU Sampler
+Jun 1, 2012 6:13:12 PM NewRelic FINE: Started Worker and Sampler Threads
+Jun 1, 2012 6:13:12 PM NewRelic INFO: New Relic Agent v1.2.005 started
+Jun 1, 2012 6:13:12 PM NewRelic SEVERE: An ASM array bounds exception occurred transforming class MonitorHandler (1,787 bytes) : java.lang.ArrayIndexOutOfBoundsException: -1
+Jun 1, 2012 6:13:12 PM NewRelic INFO: ASM error for pointcut(s) : strong [] / weak [null, com.newrelic.agent.instrumentation.pointcuts.MathCSConcurrentPointCut, quartz_job, com.newrelic.agent.instrumentation.pointcuts.XmlRpcPointCut, com.newrelic.agent.instrumentation.pointcuts.commons.HttpMethodPointCut, com.newrelic.agent.instrumentation.pointcuts.database.BatchSqlPointCut, jdbc_prepare_statement, jdbc_data_source, jdbc_prepared_statement, jdbc_statement, com.newrelic.agent.instrumentation.pointcuts.frameworks.ProcessActionPortletPointCut, com.newrelic.agent.instrumentation.pointcuts.frameworks.RenderPortletPointCut, com.newrelic.agent.instrumentation.pointcuts.frameworks.faces.LifecyclePointCut, com.newrelic.agent.instrumentation.pointcuts.frameworks.spring.HandlerInterceptorPointCut, com.newrelic.agent.instrumentation.pointcuts.frameworks.spring.SpringPointCut, com.newrelic.agent.instrumentation.pointcuts.frameworks.struts.Struts2ActionPointCut, com.newrelic.agent.instrumentation.pointcuts.frameworks.struts.StrutsActionPointCut, com.newrelic.agent.instrumentation.pointcuts.frameworks.struts.XWork2ResultPC, com.newrelic.agent.instrumentation.pointcuts.net.HttpURLConnectionPointCut, com.newrelic.agent.instrumentation.pointcuts.servlet.HttpServletPointCut, com.newrelic.agent.instrumentation.pointcuts.servlet.ServletContextListenerPointCut, com.newrelic.agent.instrumentation.pointcuts.servlet.ServletFilterPointCut, com.newrelic.agent.instrumentation.pointcuts.servlet.ServletInitPointCut, com.newrelic.agent.instrumentation.pointcuts.servlet.ServletPointCut, com.newrelic.agent.instrumentation.pointcuts.servlet.ServletRequestPointCut, com.newrelic.agent.instrumentation.pointcuts.solr.SearchComponentPointCut, com.newrelic.agent.instrumentation.pointcuts.solr.SolrRequestHandlerPointCut]
+Jun 1, 2012 6:13:12 PM NewRelic INFO: The New Relic Agent is shutting down.
+Jun 1, 2012 6:13:12 PM NewRelic INFO: Agent stopped with 4 pending jobs
+Jun 1, 2012 6:13:12 PM NewRelic FINE: Stopped Worker and Sampler Threads
+Jun 1, 2012 6:13:12 PM NewRelic INFO: The New Relic Agent has shutdown.
+Jun 1, 2012 6:13:20 PM NewRelic INFO: Writing to NewRelic log file : /home/mrege/workspace/newrelic-node/newrelic/lib/logs/newrelic_agent.log
+Jun 1, 2012 6:13:20 PM NewRelic CONFIG: Configured to connect to RPM production at collector.newrelic.com:80
+Jun 1, 2012 6:13:20 PM NewRelic FINE: Created Agent
+Jun 1, 2012 6:13:20 PM NewRelic FINE: Booting RPM Agent from Premain (-javaagent)
+Jun 1, 2012 6:13:21 PM NewRelic FINE: Started CPU Sampler
+Jun 1, 2012 6:13:21 PM NewRelic FINE: Started Worker and Sampler Threads
+Jun 1, 2012 6:13:21 PM NewRelic INFO: New Relic Agent v1.2.005 started
+Jun 1, 2012 6:13:21 PM NewRelic SEVERE: An ASM array bounds exception occurred transforming class MonitorHandler (1,787 bytes) : java.lang.ArrayIndexOutOfBoundsException: -1
+Jun 1, 2012 6:13:21 PM NewRelic INFO: ASM error for pointcut(s) : strong [] / weak [null, com.newrelic.agent.instrumentation.pointcuts.MathCSConcurrentPointCut, quartz_job, com.newrelic.agent.instrumentation.pointcuts.XmlRpcPointCut, com.newrelic.agent.instrumentation.pointcuts.commons.HttpMethodPointCut, com.newrelic.agent.instrumentation.pointcuts.database.BatchSqlPointCut, jdbc_prepare_statement, jdbc_data_source, jdbc_prepared_statement, jdbc_statement, com.newrelic.agent.instrumentation.pointcuts.frameworks.ProcessActionPortletPointCut, com.newrelic.agent.instrumentation.pointcuts.frameworks.RenderPortletPointCut, com.newrelic.agent.instrumentation.pointcuts.frameworks.faces.LifecyclePointCut, com.newrelic.agent.instrumentation.pointcuts.frameworks.spring.HandlerInterceptorPointCut, com.newrelic.agent.instrumentation.pointcuts.frameworks.spring.SpringPointCut, com.newrelic.agent.instrumentation.pointcuts.frameworks.struts.Struts2ActionPointCut, com.newrelic.agent.instrumentation.pointcuts.frameworks.struts.StrutsActionPointCut, com.newrelic.agent.instrumentation.pointcuts.frameworks.struts.XWork2ResultPC, com.newrelic.agent.instrumentation.pointcuts.net.HttpURLConnectionPointCut, com.newrelic.agent.instrumentation.pointcuts.servlet.HttpServletPointCut, com.newrelic.agent.instrumentation.pointcuts.servlet.ServletContextListenerPointCut, com.newrelic.agent.instrumentation.pointcuts.servlet.ServletFilterPointCut, com.newrelic.agent.instrumentation.pointcuts.servlet.ServletInitPointCut, com.newrelic.agent.instrumentation.pointcuts.servlet.ServletPointCut, com.newrelic.agent.instrumentation.pointcuts.servlet.ServletRequestPointCut, com.newrelic.agent.instrumentation.pointcuts.solr.SearchComponentPointCut, com.newrelic.agent.instrumentation.pointcuts.solr.SolrRequestHandlerPointCut]
+Jun 1, 2012 6:13:21 PM NewRelic INFO: The New Relic Agent is shutting down.
+Jun 1, 2012 6:13:21 PM NewRelic INFO: Agent stopped with 4 pending jobs
+Jun 1, 2012 6:13:21 PM NewRelic FINE: Stopped Worker and Sampler Threads
+Jun 1, 2012 6:13:21 PM NewRelic INFO: The New Relic Agent has shutdown.
+Jun 1, 2012 6:13:41 PM NewRelic INFO: Writing to NewRelic log file : /home/mrege/workspace/newrelic-node/newrelic/lib/logs/newrelic_agent.log
+Jun 1, 2012 6:13:41 PM NewRelic CONFIG: Configured to connect to RPM production at collector.newrelic.com:80
+Jun 1, 2012 6:13:41 PM NewRelic FINE: Created Agent
+Jun 1, 2012 6:13:41 PM NewRelic FINE: Booting RPM Agent from Premain (-javaagent)
+Jun 1, 2012 6:13:41 PM NewRelic FINE: Started CPU Sampler
+Jun 1, 2012 6:13:41 PM NewRelic FINE: Started Worker and Sampler Threads
+Jun 1, 2012 6:13:41 PM NewRelic INFO: New Relic Agent v1.2.005 started
+Jun 1, 2012 6:13:42 PM NewRelic SEVERE: An ASM array bounds exception occurred transforming class MonitorHandler (1,787 bytes) : java.lang.ArrayIndexOutOfBoundsException: -1
+Jun 1, 2012 6:13:42 PM NewRelic INFO: ASM error for pointcut(s) : strong [] / weak [null, com.newrelic.agent.instrumentation.pointcuts.MathCSConcurrentPointCut, quartz_job, com.newrelic.agent.instrumentation.pointcuts.XmlRpcPointCut, com.newrelic.agent.instrumentation.pointcuts.commons.HttpMethodPointCut, com.newrelic.agent.instrumentation.pointcuts.database.BatchSqlPointCut, jdbc_prepare_statement, jdbc_data_source, jdbc_prepared_statement, jdbc_statement, com.newrelic.agent.instrumentation.pointcuts.frameworks.ProcessActionPortletPointCut, com.newrelic.agent.instrumentation.pointcuts.frameworks.RenderPortletPointCut, com.newrelic.agent.instrumentation.pointcuts.frameworks.faces.LifecyclePointCut, com.newrelic.agent.instrumentation.pointcuts.frameworks.spring.HandlerInterceptorPointCut, com.newrelic.agent.instrumentation.pointcuts.frameworks.spring.SpringPointCut, com.newrelic.agent.instrumentation.pointcuts.frameworks.struts.Struts2ActionPointCut, com.newrelic.agent.instrumentation.pointcuts.frameworks.struts.StrutsActionPointCut, com.newrelic.agent.instrumentation.pointcuts.frameworks.struts.XWork2ResultPC, com.newrelic.agent.instrumentation.pointcuts.net.HttpURLConnectionPointCut, com.newrelic.agent.instrumentation.pointcuts.servlet.HttpServletPointCut, com.newrelic.agent.instrumentation.pointcuts.servlet.ServletContextListenerPointCut, com.newrelic.agent.instrumentation.pointcuts.servlet.ServletFilterPointCut, com.newrelic.agent.instrumentation.pointcuts.servlet.ServletInitPointCut, com.newrelic.agent.instrumentation.pointcuts.servlet.ServletPointCut, com.newrelic.agent.instrumentation.pointcuts.servlet.ServletRequestPointCut, com.newrelic.agent.instrumentation.pointcuts.solr.SearchComponentPointCut, com.newrelic.agent.instrumentation.pointcuts.solr.SolrRequestHandlerPointCut]
+Jun 1, 2012 6:13:42 PM NewRelic INFO: The New Relic Agent is shutting down.
+Jun 1, 2012 6:13:42 PM NewRelic INFO: Agent stopped with 4 pending jobs
+Jun 1, 2012 6:13:42 PM NewRelic FINE: Stopped Worker and Sampler Threads
+Jun 1, 2012 6:13:42 PM NewRelic INFO: The New Relic Agent has shutdown.
+Jun 1, 2012 6:17:55 PM NewRelic INFO: Writing to NewRelic log file : /home/mrege/workspace/newrelic-node/newrelic/lib/logs/newrelic_agent.log
+Jun 1, 2012 6:17:55 PM NewRelic CONFIG: Configured to connect to RPM production at collector.newrelic.com:80
+Jun 1, 2012 6:17:55 PM NewRelic FINE: Created Agent
+Jun 1, 2012 6:17:55 PM NewRelic FINE: Booting RPM Agent from Premain (-javaagent)
+Jun 1, 2012 6:17:56 PM NewRelic FINE: Started CPU Sampler
+Jun 1, 2012 6:17:56 PM NewRelic FINE: Started Worker and Sampler Threads
+Jun 1, 2012 6:17:56 PM NewRelic INFO: New Relic Agent v1.2.005 started
+Jun 1, 2012 6:19:58 PM NewRelic INFO: Collector redirection to collector-7.newrelic.com:80
+Jun 1, 2012 6:19:59 PM NewRelic INFO: Agent 18550@mrege/arquitectura-newrelic-node-test connected to collector-7.newrelic.com:80
+Jun 1, 2012 6:19:59 PM NewRelic FINE: Agent run id : 170410304
+Jun 1, 2012 6:20:00 PM NewRelic INFO: The agent received 3 url normalization rule(s)
+Jun 1, 2012 6:20:00 PM NewRelic INFO: Errors will be sent to the RPM service
+Jun 1, 2012 6:20:00 PM NewRelic FINE: JMX Service : querying MBeans (0)
+Jun 1, 2012 6:20:00 PM NewRelic FINE: Reported 4 timeslices
