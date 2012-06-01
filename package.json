@@ -1,0 +1,24 @@
+{ "name" : "newrelic-node"
+, "description" : "Logger para newrelic"
+, "tags" : ["newrelic"]
+, "version" : "0.0.1"
+, "author" : "Matias Rege <matias.rege@mercadolibre.com>"
+, "repository" :
+  { "type" : "git"
+  , "url" : "http://github.com/mercadolibre/newrelic-node"
+  }
+, "bugs" :
+  { "url" : "http://github.com/mercadolibre/newrelic-node/issues" }
+, "engines" : ["node >= 0.3.6"]
+, "main" : "./newrelic-node"
+, "dependencies": {
+        "node-logging" : "0.1.x",
+       	"mocha" : "0.14.x",
+	"should" : "0.6.x"
+	}
+, "scripts": { "test": "mocha --globals myThis,myHolder,myCallee,State_myThis --reporter spec -t 2000 -s 3000 ${TESTFILE}"}
+, "devDependencies": {
+	"mocha" : "0.14.x",
+	"should" : "0.6.x"
+	}
+}

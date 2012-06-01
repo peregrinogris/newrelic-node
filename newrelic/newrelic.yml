@@ -1,0 +1,26 @@
+
+common: &default_settings
+
+  license_key: 'db29d78bd11c35aa77ba7dfe9fb2e6ab2b550c2e'
+  host: collector.newrelic.com
+
+  enabled: true
+  enable_custom_tracing: true
+  capture_params: true
+  ssl: false
+  apdex_t: 0.040
+  log_level: fine
+  trace_data_calls: false
+  thread_profiler:
+    enabled: true
+  transaction_tracer:
+    enabled: false
+  error_collector:
+    enabled: true
+    capture_source: true
+#  proxy_host: 172.16.0.89
+#  proxy_port: 80
+
+production:
+  <<: *default_settings
+  app_name: arquitectura-newrelic-node-test

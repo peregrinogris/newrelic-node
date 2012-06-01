@@ -1,0 +1,24 @@
+info it worked if it ends with ok
+verbose cli [ 'node', '/usr/bin/npm', 'test' ]
+info using npm@1.1.18
+info using node@v0.6.18
+verbose /usr/bin/node node symlink
+verbose config file /home/mrege/.npmrc
+verbose config file /usr/etc/npmrc
+verbose config file /usr/lib/node_modules/npm/npmrc
+ERR! Error: ENOENT, open '/home/mrege/workspace/newrelic-node/newrelic/package.json'
+ERR! You may report this log at:
+ERR!     <http://github.com/isaacs/npm/issues>
+ERR! or email it to:
+ERR!     <npm-@googlegroups.com>
+ERR! 
+ERR! System Linux 3.2.0-25-generic-pae
+ERR! command "node" "/usr/bin/npm" "test"
+ERR! cwd /home/mrege/workspace/newrelic-node/newrelic
+ERR! node -v v0.6.18
+ERR! npm -v 1.1.18
+ERR! path /home/mrege/workspace/newrelic-node/newrelic/package.json
+ERR! code ENOENT
+ERR! message ENOENT, open '/home/mrege/workspace/newrelic-node/newrelic/package.json'
+ERR! errno {}
+verbose exit [ 1, true ]

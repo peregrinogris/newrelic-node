@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/guava-r05.jar"/>
+	<classpathentry kind="lib" path="lib/mina-core-1.1.7.jar" sourcepath="/home/mrege/Temporales/mina-1.1.7/mina-core-1.1.7-sources.jar"/>
+	<classpathentry kind="lib" path="lib/mina-integration-jmx-1.1.7.jar"/>
+	<classpathentry kind="lib" path="lib/newrelic.jar"/>
+	<classpathentry kind="lib" path="lib/commons-lang-2.6.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging-1.0.3.jar"/>
+	<classpathentry kind="lib" path="lib/mina-filter-compression-1.1.7.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-api-1.6.1.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
