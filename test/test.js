@@ -30,16 +30,8 @@ describe("process java" ,function(){
     
     it("envio de mensaje a proceso java",function(done){
 	newrelic.log({timespent:5000,path:"/test", httpStatus:500, httpMethod:"GET"});
-		newrelic.log({timespent:5000,path:"/test", httpStatus:500, httpMethod:"GET"});
-			newrelic.log({timespent:5000,path:"/test", httpStatus:500, httpMethod:"GET"});
-				newrelic.log({timespent:5000,path:"/test", httpStatus:500, httpMethod:"GET"});
-					newrelic.log({timespent:5000,path:"/test", httpStatus:500, httpMethod:"GET"});
-						newrelic.log({timespent:5000,path:"/test", httpStatus:500, httpMethod:"GET"});
-							newrelic.log({timespent:5000,path:"/test", httpStatus:500, httpMethod:"GET"});
-								newrelic.log({timespent:5000,path:"/test", httpStatus:500, httpMethod:"GET"});
-									newrelic.log({timespent:5000,path:"/test", httpStatus:500, httpMethod:"GET"});
-										newrelic.log({timespent:5000,path:"/test", httpStatus:500, httpMethod:"GET"});
-											newrelic.log({timespent:5000,path:"/test", httpStatus:500, httpMethod:"GET"});
+	//termina de implementar
+	done()
 	});
 })
 

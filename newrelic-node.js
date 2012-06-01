@@ -60,7 +60,7 @@ exports.log = function(data){
 
 exports.logRequest = function(req, res, timespent){    
 	if (connected) {
-		socket.write("{timespent:"+timespent+", path:"+path+", httpStatus:"+res.statusCode+", httpMethod:"+req.method" }\n");
+		socket.write("{timespent:"+timespent+", path:"+path+", httpStatus:"+res.statusCode+", httpMethod:"+req.method+" }\n");
 		socket.write("\n");
 	}
 };
