@@ -1,7 +1,7 @@
 { "name" : "newrelic-node"
 , "description" : "Logger para newrelic"
 , "tags" : ["newrelic"]
-, "version" : "0.0.6"
+, "version" : "0.0.7"
 , "author" : "Matias Rege <matias.rege@mercadolibre.com>"
 , "repository" :
   { "type" : "git"
