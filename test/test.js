@@ -3,6 +3,8 @@ var newrelic = require( "../newrelic-node.js" );
 var should = require('should'),
     log = require("node-logging"),
     sys = require('util'),
+    http = require('http'), 
+    request = require('request'),
     exec = require('child_process').exec;
     
 describe("process java" ,function(){
@@ -32,6 +34,20 @@ describe("process java" ,function(){
 	newrelic.log({timespent:5000,path:"/test", httpStatus:500, httpMethod:"GET"});
 	//termina de implementar
 	done()
+	});
+
+
+    it("envio de mensaje por request",function(done){
+    	http.createServer(function(request, response) {
+    	 	newrelic.logRequest(request, response, 5000);
+    	 	done();
+    	}).listen(8085);
+    	   request({
+                url:"http://127.0.0.1:8085/ping",
+                method:"GET",
+                jar: false
+            },function(error,response,body){
+            })
 	});
 })
 

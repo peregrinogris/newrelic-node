@@ -2,6 +2,7 @@ var sys = require('util');
 var log = require('node-logging');
 var exec = require('child_process').exec;
 var net = require('net');
+var url = require('url');
 var client;
 
 log.setLevel("info");
@@ -61,6 +62,6 @@ exports.log = function(data){
 exports.logRequest = function(req, res, timespent){    
 	if (connected) {
 		var path = url.parse(req.url).pathname;
-		log({timespent:timespent, path:path, httpStatus:res.statusCode, httpMethod:req.method });
+		socket.write("{timespent:"+timespent+", path:"+path+", httpStatus:"+res.statusCode+", httpMethod:"+req.method+"}");
 	}
 };
