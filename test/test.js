@@ -29,18 +29,24 @@ describe("process java" ,function(){
 		done()
 	});
     })
-    
+     	
     it("envio de mensaje a proceso java",function(done){
-	newrelic.log({timespent:5000,path:"/test", httpStatus:500, httpMethod:"GET"});
+	//newrelic.log({timespent:5000,path:"/test", httpStatus:500, httpMethod:"GET"});
 	//termina de implementar
 	done()
 	});
 
 
     it("envio de mensaje por request",function(done){
+    	this.timeout(5000);
     	http.createServer(function(request, response) {
+    		response.writeHead(200, {});
     	 	newrelic.logRequest(request, response, 5000);
-    	 	done();
+    	 	newrelic.logRequest(request, response, 5000);
+    	 	newrelic.logRequest(request, response, 5000);
+    	 	setTimeout(function() {
+    			done();	
+    	 	}, 4000);
     	}).listen(8085);
     	   request({
                 url:"http://127.0.0.1:8085/ping",

@@ -62,6 +62,6 @@ exports.log = function(data){
 exports.logRequest = function(req, res, timespent){    
 	if (connected) {
 		var path = url.parse(req.url).pathname;
-		socket.write("{timespent:"+timespent+", path:"+path+", httpStatus:"+res.statusCode+", httpMethod:"+req.method+"}");
+		this.log({"timespent":timespent, "path":path, "httpStatus":res.statusCode, "httpMethod":req.method});
 	}
 };

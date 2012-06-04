@@ -35,11 +35,11 @@ public class MonitorHandler extends IoHandlerAdapter {
 			String path = json.containsKey("path") ? (String)json.get("path") : "-";
 			String method = json.containsKey("httpMethod") ? (String)json.get("httpMethod") : "-";
 			long timespent = json.containsKey("timespent") ? (Long)json.get("timespent") : 0;
-			long status = json.containsKey("httpStatus") ? (Long)json.get("httpStatus") : 0;
+			long status = json.containsKey("httpStatus") ? (Long)json.get("httpStatus") : 999;
 			
 			StatsEngine.getApdexStats(MetricSpec.APDEX).recordApdexResponseTime(timespent);
 			StatsEngine.getResponseTimeStats(MetricSpec.DISPATCHER).recordResponseTime(timespent);
-			StatsEngine.getResponseTimeStats(MetricNames.URI_WEB_TRANSACTION +path).recordResponseTime(timespent);
+			StatsEngine.getResponseTimeStats(MetricNames.URI_WEB_TRANSACTION+path).recordResponseTime(timespent);
 			StatsEngine.getApdexStats(MetricSpec.lookup(MetricNames.APDEX+path)).recordApdexResponseTime(timespent);
 			
 			boolean failed = ((status < 200) || (status > 399));
@@ -47,7 +47,6 @@ public class MonitorHandler extends IoHandlerAdapter {
 				reportAppError(msg.toString(), status, path, method, timespent);
 				return;
 			}
-
 		} catch (Throwable t) {
 			reportParserError(msg.toString(), t);
 		}
