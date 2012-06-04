@@ -12,13 +12,13 @@ Editar el archivo newrelic/newrelic.yml con la license_key y app_name de la apli
 	
 o
 	var newrelic = require( "newrelic-node" );
-	newrelic.log(request, responsse, timespent);
+	newrelic.logRequest(request, response, timespent);
 	
 ## Requisitos:
 JAVA 1.6
 
 ## Como funciona?
-Como newrelic no tiene soporte nativo para nodejs, lo que hace el modulo es levantar un proceso java que usa la api de newrelic para loguear las transacciones. El proceso java usa MINA para escuchar en un socket y del lado de nodejs se envia las metricas por ese socket
+Como newrelic no tiene soporte nativo para nodejs, lo que hace el modulo es levantar un proceso java que loguea en newrelic. El proceso java usa MINA para comunicarse con nodejs.
 
 ## Herramientas usadas:
 	Mina (mina.apache.org)
