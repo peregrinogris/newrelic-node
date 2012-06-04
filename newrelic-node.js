@@ -4,10 +4,10 @@ var exec = require('child_process').exec;
 var net = require('net');
 var client;
 
-log.setLevel("debug");
+log.setLevel("info");
 
-exec("java -server -javaagent:lib/newrelic.jar -Dnewrelic.config.file=newrelic.yml -Dnewrelic.environment=production -cp ./lib/mina-core-1.1.7.jar:./lib/mina-filter-compression-1.1.7.jar:./lib/mina-integration-jmx-1.1.7.jar:./lib/guava-r05.jar:./lib/commons-lang-2.6.jar:./lib/commons-logging-1.0.3.jar:./lib/slf4j-api-1.6.1.jar:./bin/ Monitor 1> monitor.log 2> monitor.err", 
-	{cwd:__dirname + "/newrelic/"}, function () {/*ver que hacer si se muere el proceso java*/});
+exec("java -Xms32M -Xmx32M -javaagent:lib/newrelic.jar -Dnewrelic.config.file=newrelic.yml -Dnewrelic.environment=production -cp ./lib/mina-core-1.1.7.jar:./lib/mina-filter-compression-1.1.7.jar:./lib/mina-integration-jmx-1.1.7.jar:./lib/guava-r05.jar:./lib/commons-lang-2.6.jar:./lib/commons-logging-1.0.3.jar:./lib/slf4j-api-1.6.1.jar:./bin/ Monitor 1> monitor.log 2> monitor.err", 
+	{cwd:__dirname + "/newrelic/"}, function () {log.err("Termino proceso JAVA!")/*ver que hacer si se muere el proceso java*/});
  
 var connected = false;
 var retry = false;
@@ -60,6 +60,7 @@ exports.log = function(data){
 
 exports.logRequest = function(req, res, timespent){    
 	if (connected) {
+		var path = url.parse(req.url).pathname;
 		log({timespent:timespent, path:path, httpStatus:res.statusCode, httpMethod:req.method });
 	}
 };
