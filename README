@@ -12,7 +12,7 @@ Uso:
 	
 o
 	var newrelic = require( "newrelic-node" );
-	newrelic.log(request, responsse, timespent);
+	newrelic.logRequest(request, response, timespent);
 	
 Requisitos:
 JAVA 1.6
