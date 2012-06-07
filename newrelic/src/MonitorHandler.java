@@ -1,5 +1,6 @@
 import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.mina.common.IoHandlerAdapter;
 import org.apache.mina.common.IoSession;
@@ -30,18 +31,33 @@ public class MonitorHandler extends IoHandlerAdapter {
 
 	public void messageReceived(IoSession session, Object msg) throws Exception {
 		try {
+			System.out.println("Message: "+msg);
 			JSONObject json = (JSONObject)new JSONParser().parse(msg.toString());
 			
 			String path = json.containsKey("path") ? (String)json.get("path") : "-";
 			String method = json.containsKey("httpMethod") ? (String)json.get("httpMethod") : "-";
-			long timespent = json.containsKey("timespent") ? (Long)json.get("timespent") : 0;
 			long status = json.containsKey("httpStatus") ? (Long)json.get("httpStatus") : 999;
+			long totaltime = 0;
 			
-			StatsEngine.getApdexStats(MetricSpec.APDEX).recordApdexResponseTime(timespent);
-			StatsEngine.getResponseTimeStats(MetricSpec.DISPATCHER).recordResponseTime(timespent);
-			StatsEngine.getResponseTimeStats(MetricNames.URI_WEB_TRANSACTION+path).recordResponseTime(timespent);
-			StatsEngine.getApdexStats(MetricSpec.lookup(MetricNames.APDEX+path)).recordApdexResponseTime(timespent);
+						
+			JSONObject timespent = (JSONObject) json.get("timespent");
 			
+			for (Object time : timespent.values()) {
+				totaltime += (Long)time;			
+			}
+			
+			StatsEngine.getResponseTimeStats(MetricSpec.DISPATCHER).recordResponseTime(totaltime);
+		    StatsEngine.getApdexStats(MetricSpec.APDEX).recordApdexResponseTime(totaltime);
+		    
+		    for (Map.Entry<Object, Object> entry : (Set<Map.Entry<Object, Object>>)timespent.entrySet()) {
+				if ("WEB_TRANSACTION_EXTERNAL_ALL".equals(entry.getKey())) {
+					StatsEngine.getResponseTimeStats(MetricSpec.WEB_TRANSACTION_EXTERNAL_ALL).recordResponseTime((Long)entry.getValue());
+				} if ("URI_WEB_TRANSACTION".equals(entry.getKey())) {
+					StatsEngine.getResponseTimeStats(MetricNames.URI_WEB_TRANSACTION + '/' + path).recordResponseTime((Long)entry.getValue());					
+					StatsEngine.getApdexStats(MetricSpec.lookup(MetricNames.APDEX + "/Uri/" + path)).recordApdexResponseTime((Long)entry.getValue());
+				}
+			}
+		   
 			boolean failed = ((status < 200) || (status > 399));
 			if (failed) {
 				reportAppError(msg.toString(), status, path, method, timespent);
@@ -59,12 +75,12 @@ public class MonitorHandler extends IoHandlerAdapter {
 			((SocketSessionConfig) session.getConfig() ).setReceiveBufferSize( 2048 );
 	}
 
-	private static void reportAppError(String logLine, long status, String path, String method, long timespent) {
+	private static void reportAppError(String logLine, long status, String path, String method, JSONObject timespent) {
 		Map<String, Object> errorParams = Maps.newHashMap();
 		errorParams.put(RequestDispatcherTracer.REQUEST_PARAMETERS_PARAMETER_NAME, Collections.EMPTY_MAP);
 		errorParams.put("Status", (int)status);
 		errorParams.put("Method", method);
-		errorParams.put("Total Time", timespent);
+		errorParams.put("Timespent", timespent.toJSONString());
 		errorParams.put("Log Line", logLine);
 		Agent.instance().getDefaultRPMService().getErrorService().reportError(new HttpTracedError(path,
 				(int)status,"HTTP - " + status,path,errorParams,System.currentTimeMillis()));
@@ -77,5 +93,6 @@ public class MonitorHandler extends IoHandlerAdapter {
 		Agent.instance().getDefaultRPMService().getErrorService().reportError(new ThrowableError("NodeMonitor",t,
 				"NodeMonitor",errorParams,System.currentTimeMillis()));
 	}	
+
 }
 

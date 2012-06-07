@@ -46,10 +46,45 @@ describe("process java" ,function(){
     	 	newrelic.logRequest(request, response, 5000);
     	 	setTimeout(function() {
     			done();	
-    	 	}, 4000);
+    	 	}, 2000);
     	}).listen(8085);
     	   request({
                 url:"http://127.0.0.1:8085/ping",
+                method:"GET",
+                jar: false
+            },function(error,response,body){
+            })
+	});
+	
+	
+    it("envio de error",function(done){
+    	this.timeout(5000);
+    	http.createServer(function(request, response) {
+    		response.writeHead(500, {});
+    	 	newrelic.logRequestError("Un error", request, response, 5000);
+    	 	setTimeout(function() {
+    			done();	
+    	 	}, 2000);
+    	}).listen(8086);
+    	   request({
+                url:"http://127.0.0.1:8086/pingError",
+                method:"GET",
+                jar: false
+            },function(error,response,body){
+            })
+	});
+	
+    it("log WEB_TRANSACTION_EXTERNAL_ALL",function(done){
+    	this.timeout(5000);
+    	http.createServer(function(request, response) {
+    		response.writeHead(200, {});
+    	 	newrelic.logWebTransactionExternalAll(request, response, 5000);
+    	 	setTimeout(function() {
+    			done();	
+    	 	}, 2000);
+    	}).listen(8087);
+    	   request({
+                url:"http://127.0.0.1:8087/ping",
                 method:"GET",
                 jar: false
             },function(error,response,body){
