@@ -13,6 +13,10 @@ Editar el archivo newrelic/newrelic.yml con la license_key y app_name de la apli
 	var newrelic = require( "newrelic-node" );
 	newrelic.logRequest(request, response, timespent);
 	
+## Loguear errores:
+	var newrelic = require( "newrelic-node" );
+	newrelic.logRequestError("Un mensaje de error", request, response, timespent);	
+
 ## Requisitos:
 JAVA 1.6
 
