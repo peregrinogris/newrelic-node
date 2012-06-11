@@ -31,7 +31,6 @@ public class MonitorHandler extends IoHandlerAdapter {
 
 	public void messageReceived(IoSession session, Object msg) throws Exception {
 		try {
-			System.out.println("Message: "+msg);
 			JSONObject json = (JSONObject)new JSONParser().parse(msg.toString());
 			
 			String path = json.containsKey("path") ? (String)json.get("path") : "-";
