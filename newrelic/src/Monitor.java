@@ -10,7 +10,6 @@ import org.apache.mina.filter.codec.textline.TextLineCodecFactory;
 import org.apache.mina.transport.socket.nio.SocketAcceptor;
 import org.apache.mina.transport.socket.nio.SocketAcceptorConfig;
 
-import com.newrelic.agent.MetricNames;
 import com.newrelic.agent.MetricSpec;
 
 /**
