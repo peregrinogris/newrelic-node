@@ -62,21 +62,33 @@ exports.log = function(data){
 exports.logRequest = function(req, res, timespent){    
 	if (connected) {
 		var path = url.parse(req.url).pathname;
-		this.log({"timespent":{URI_WEB_TRANSACTION:timespent}, "path":path, "httpStatus":res.statusCode, "httpMethod":req.method});
+		this.log({"timespent":{URI_WEB_TRANSACTION:timespent}, 
+			"path":path, 
+			"httpStatus":res.statusCode, 
+			"httpMethod":req.method});
 	}
 };
 
 exports.logRequestError = function(messsage, req, res, timespent){    
 	if (connected) {
 		var path = url.parse(req.url).pathname;
-		this.log({"timespent":{URI_WEB_TRANSACTION:timespent}, "path":path, "httpStatus":res.statusCode, "httpMethod":req.method, "error":messsage});
+		this.log({"timespent":{URI_WEB_TRANSACTION:timespent}, 
+			"path":path, 
+			"httpStatus":res.statusCode, 
+			"httpMethod":req.method, 
+			"error":messsage, 
+			"request.headers":req.headers, 
+			"response.headers":res.headers});
 	}
 };
 
 exports.logWebTransactionExternalAll = function(req, res, timespent){    
 	if (connected) {
 		var path = url.parse(req.url).pathname;
-		this.log({"timespent":{WEB_TRANSACTION_EXTERNAL_ALL: timespent}, "path":path, "httpStatus":res.statusCode, "httpMethod":req.method});
+		this.log({"timespent":{WEB_TRANSACTION_EXTERNAL_ALL: timespent}, 
+			"path":path, 
+			"httpStatus":res.statusCode, 
+			"httpMethod":req.method});
 	}
 };
 
