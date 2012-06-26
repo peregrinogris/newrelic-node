@@ -28,13 +28,13 @@ socket.on('disconnect', function() {
 
 socket.on('error', function() {
   connected = false;
-  log.inf("Error en socket");
+  log.inf("Error en socket, reintentando en: "+RETRY_INTERVAL+" ms");
   retryConnectOnFailure(RETRY_INTERVAL);
 });
 
 socket.on('close', function() {
   connected = false;
-  log.inf("Socket cerrado");
+  log.inf("Conexion con Monitor cerrada, reconectando en: "+RETRY_INTERVAL+" ms...");
   retryConnectOnFailure(RETRY_INTERVAL);
 });
 
