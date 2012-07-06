@@ -31,6 +31,7 @@ describe("process java" ,function(){
     })
      	
     it("envio de mensaje a proceso java",function(done){
+	this.timeout(2000);
 	newrelic.log({timespent:{URI_WEB_TRANSACTION:5000},path:"/test", httpStatus:200, httpMethod:"GET"});
 	//termina de implementar
 	done()
