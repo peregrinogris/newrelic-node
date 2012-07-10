@@ -23,6 +23,7 @@ import com.newrelic.org.json.simple.parser.JSONParser;
  */
 public class MonitorHandler extends IoHandlerAdapter {
 	private static final StatsEngine StatsEngine = Agent.instance().getDefaultRPMService().getStatsEngine();
+	private boolean debug;
 	
 	public void exceptionCaught(IoSession session, Throwable t) throws Exception {
 		t.printStackTrace();
@@ -41,20 +42,31 @@ public class MonitorHandler extends IoHandlerAdapter {
 						
 			JSONObject timespent = (JSONObject) json.get("timespent");
 			
-			for (Object time : timespent.values()) {
-				totaltime += (Long)time;			
+			for (Object key : timespent.keySet()) {
+				Object timeObj = timespent.get(key);
+				Long time;
+				
+				if (timeObj instanceof Double) {
+					time = (long) (((Double) timeObj)*1000);					
+				} else
+					time = (Long)timeObj;
+				
+				totaltime += time;
+				
+				if ("WEB_TRANSACTION_EXTERNAL_ALL".equals(key)) {
+					StatsEngine.getResponseTimeStats(MetricSpec.WEB_TRANSACTION_EXTERNAL_ALL).recordResponseTime(time);
+				} if ("URI_WEB_TRANSACTION".equals(key)) {
+					StatsEngine.getResponseTimeStats(MetricNames.URI_WEB_TRANSACTION + '/' + path).recordResponseTime(time);					
+					StatsEngine.getApdexStats(MetricSpec.lookup(MetricNames.APDEX + "/Uri/" + path)).recordApdexResponseTime(time);
+				}
+				
+							
 			}
 			
 			StatsEngine.getResponseTimeStats(MetricSpec.DISPATCHER).recordResponseTime(totaltime);
 		    StatsEngine.getApdexStats(MetricSpec.APDEX).recordApdexResponseTime(totaltime);
 		    
 		    for (Map.Entry<Object, Object> entry : (Set<Map.Entry<Object, Object>>)timespent.entrySet()) {
-				if ("WEB_TRANSACTION_EXTERNAL_ALL".equals(entry.getKey())) {
-					StatsEngine.getResponseTimeStats(MetricSpec.WEB_TRANSACTION_EXTERNAL_ALL).recordResponseTime((Long)entry.getValue());
-				} if ("URI_WEB_TRANSACTION".equals(entry.getKey())) {
-					StatsEngine.getResponseTimeStats(MetricNames.URI_WEB_TRANSACTION + '/' + path).recordResponseTime((Long)entry.getValue());					
-					StatsEngine.getApdexStats(MetricSpec.lookup(MetricNames.APDEX + "/Uri/" + path)).recordApdexResponseTime((Long)entry.getValue());
-				}
 			}
 		   
 			boolean failed = ((status < 200) || (status > 399));
@@ -63,6 +75,8 @@ public class MonitorHandler extends IoHandlerAdapter {
 				return;
 			}
 		} catch (Throwable t) {
+			if (debug)
+				t.printStackTrace();
 			reportParserError(msg.toString(), t);
 		}
 
@@ -91,6 +105,10 @@ public class MonitorHandler extends IoHandlerAdapter {
 		errorParams.put("Log Line", logLine);
 		Agent.instance().getDefaultRPMService().getErrorService().reportError(new ThrowableError("NodeMonitor",t,
 				"NodeMonitor",errorParams,System.currentTimeMillis()));
+	}
+
+	public void setDebug(boolean debug) {
+		this.debug = debug;	
 	}	
 
 }
