@@ -4,6 +4,7 @@ import java.util.Set;
 
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
+import org.apache.mina.transport.socket.SocketSessionConfig;
 
 import com.google.common.collect.Maps;
 import com.newrelic.agent.Agent;
@@ -81,9 +82,7 @@ public class MonitorHandler extends IoHandlerAdapter {
 	}
 
 	public void sessionCreated(IoSession session) throws Exception {
-		System.out.println("Session created...");
-//		if( session.getTransportType() == TransportType.SOCKET )
-//			((SocketSessionConfig) session.getConfig() ).setReceiveBufferSize( 2048 );
+		((SocketSessionConfig) session.getConfig() ).setReceiveBufferSize( 2048 );
 	}
 
 	private static void reportAppError(String logLine, long status, String path, String method, JSONObject timespent) {
