@@ -1,7 +1,7 @@
 
 common: &default_settings
 
-  license_key: 'db29d78bd11c35aa77ba7dfe9fb2e6ab2b550c2e'
+  license_key: '##YOUR_LICENSE_KEY##'
   host: collector.newrelic.com
 
   enabled: true
@@ -23,4 +23,4 @@ common: &default_settings
 
 production:
   <<: *default_settings
-  app_name: arquitectura-dejavu-balancer
+  app_name: ##YOUR_APP_NAME##
