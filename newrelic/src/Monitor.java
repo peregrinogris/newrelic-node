@@ -18,28 +18,12 @@ public class Monitor  {
 		TextLineCodecFactory factory = new TextLineCodecFactory(Charset.forName("UTF-8"));
 		factory.setDecoderMaxLineLength(buffer);
 		acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(factory));
-		
 		MonitorHandler handler = new MonitorHandler();
 		handler.setDebug(debug);
-		
         acceptor.setHandler(handler);
         acceptor.bind(new InetSocketAddress(port));
 
         System.out.println("Listening on port " + port);
-        
-//		ByteBuffer.setUseDirectBuffers(false);
-//		ByteBuffer.setAllocator(new SimpleByteBufferAllocator());
-//
-//		System.out.println(Runtime.getRuntime().availableProcessors());
-//		SocketAcceptor acceptor = new SocketAcceptor(Runtime.getRuntime().availableProcessors() + 1, Executors.newCachedThreadPool());
-//
-//		SocketAcceptorConfig cfg = new SocketAcceptorConfig();
-//		TextLineCodecFactory factory = new TextLineCodecFactory(Charset.forName("UTF-8"));
-//		factory.setDecoderMaxLineLength(buffer);
-//		cfg.getFilterChain().addLast("codec", new ProtocolCodecFilter(factory));
-//		MonitorHandler handler = new MonitorHandler();
-//		handler.setDebug(debug);
-//		acceptor.bind(new InetSocketAddress(port), handler, cfg);
 	}
 
 	public static void main(String[] args) throws IOException {
