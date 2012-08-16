@@ -19,6 +19,10 @@ Editar el archivo newrelic/newrelic.yml con la license_key y app_name de la apli
 	var newrelic = require( "newrelic-node" );
 	newrelic.logRequestError("Un mensaje de error", request, response, timespent);	
 
+## Entorno de desarrollo:
+Para que no levante el proceso en entorno de desarrollo se puede usar:
+	NODE_ENV=development node app.js
+
 ## Requisitos:
 JAVA 1.6
 

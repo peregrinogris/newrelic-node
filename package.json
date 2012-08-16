@@ -15,7 +15,7 @@
         "node-logging" : "0.1.x",
 	"request": "2.9.x"
 	}
-, "scripts": { "test": "mocha --globals myThis,myHolder,myCallee,State_myThis --reporter spec -t 2000 -s 3000 ${TESTFILE}"}
+, "scripts": { "test": "export NODE_ENV=production && mocha --globals myThis,myHolder,myCallee,State_myThis --reporter spec -t 2000 -s 3000 ${TESTFILE}"}
 , "devDependencies": {
 	"mocha" : "0.14.x",
 	"should" : "0.6.x"
