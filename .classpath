@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="newrelic/src"/>
+	<classpathentry kind="lib" path="newrelic/lib/commons-lang-2.6.jar"/>
+	<classpathentry kind="lib" path="newrelic/lib/commons-logging-1.0.3.jar"/>
+	<classpathentry kind="lib" path="newrelic/lib/guava-r05.jar"/>
+	<classpathentry kind="lib" path="newrelic/lib/newrelic.jar"/>
+	<classpathentry kind="lib" path="newrelic/lib/slf4j-api-1.6.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="newrelic/lib/mina-core-2.0.4.jar"/>
+	<classpathentry kind="lib" path="newrelic/lib/mina-filter-compression-2.0.4.jar"/>
+	<classpathentry kind="lib" path="newrelic/lib/mina-integration-beans-2.0.4.jar"/>
+	<classpathentry kind="lib" path="newrelic/lib/mina-integration-jmx-2.0.4.jar"/>
+	<classpathentry kind="lib" path="newrelic/lib/mina-integration-ognl-2.0.4.jar"/>
+	<classpathentry kind="lib" path="newrelic/lib/mina-integration-xbean-2.0.4.jar"/>
+	<classpathentry kind="lib" path="newrelic/lib/mina-statemachine-2.0.4.jar"/>
+	<classpathentry kind="lib" path="newrelic/lib/mina-transport-apr-2.0.4.jar"/>
+	<classpathentry kind="output" path="newrelic/bin"/>
+</classpath>
