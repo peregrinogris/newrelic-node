@@ -12,11 +12,11 @@ switch(process.env.NODE_ENV){
 		//entorno de desarollo, no hago nada
 
 	case 'production':
-		exec("java -Xms32M -Xmx32M -javaagent:lib/newrelic.jar -Dnewrelic.config.file=newrelic.yml -Dnewrelic.environment=production -cp ./lib/slf4j-api-1.6.1.jar:./lib/mina-core-2.0.4.jar:./lib/mina-transport-apr-2.0.4.jar:./lib/mina-filter-compression-2.0.4.jar:./lib/commons-lang-2.6.jar:./lib/mina-statemachine-2.0.4.jar:./lib/mina-integration-beans-2.0.4.jar:./lib/commons-logging-1.0.3.jar:./lib/mina-integration-xbean-2.0.4.jar:./lib/mina-integration-ognl-2.0.4.jar:./lib/mina-integration-jmx-2.0.4.jar:./lib/guava-r05.jar:./bin/ Monitor 9999 100240 1> monitor.log 2> monitor.err", 
-		{cwd:__dirname + "/newrelic/"}, function (error, stdout, stderr) {log.err(error); log.err(stdout); log.err("Termino proceso JAVA!")/*ver que hacer si se muere el proceso java*/});
+		exec("java -XX:+OptimizeStringConcat -XX:+UseCompressedStrings -Xms16M -Xmx16M -Xss256k -javaagent:lib/newrelic.jar -Dnewrelic.config.file=newrelic.yml -Dnewrelic.environment=production -cp ./lib/slf4j-api-1.6.1.jar:./lib/mina-core-2.0.4.jar:./lib/mina-transport-apr-2.0.4.jar:./lib/mina-filter-compression-2.0.4.jar:./lib/commons-lang-2.6.jar:./lib/mina-statemachine-2.0.4.jar:./lib/mina-integration-beans-2.0.4.jar:./lib/commons-logging-1.0.3.jar:./lib/mina-integration-xbean-2.0.4.jar:./lib/mina-integration-ognl-2.0.4.jar:./lib/mina-integration-jmx-2.0.4.jar:./lib/guava-r05.jar:./bin/ Monitor 9999 512000 1> monitor.log 2> monitor.err", 
+		{cwd:__dirname + "/newrelic/"}, function (error, stdout, stderr) {/*ver que hacer si se muere el proceso java*/});
 	default:
-		exec("java -Xms32M -Xmx32M -javaagent:lib/newrelic.jar -Dnewrelic.config.file=newrelic.yml -Dnewrelic.environment=production -cp ./lib/slf4j-api-1.6.1.jar:./lib/mina-core-2.0.4.jar:./lib/mina-transport-apr-2.0.4.jar:./lib/mina-filter-compression-2.0.4.jar:./lib/commons-lang-2.6.jar:./lib/mina-statemachine-2.0.4.jar:./lib/mina-integration-beans-2.0.4.jar:./lib/commons-logging-1.0.3.jar:./lib/mina-integration-xbean-2.0.4.jar:./lib/mina-integration-ognl-2.0.4.jar:./lib/mina-integration-jmx-2.0.4.jar:./lib/guava-r05.jar:./bin/ Monitor 9999 100240 1> monitor.log 2> monitor.err", 
-		{cwd:__dirname + "/newrelic/"}, function (error, stdout, stderr) {log.err(error); log.err(stdout); log.err("Termino proceso JAVA!")/*ver que hacer si se muere el proceso java*/});
+		exec("java -XX:+OptimizeStringConcat -XX:+UseCompressedStrings -Xms16M -Xmx16M -Xss256k -javaagent:lib/newrelic.jar -Dnewrelic.config.file=newrelic.yml -Dnewrelic.environment=production -cp ./lib/slf4j-api-1.6.1.jar:./lib/mina-core-2.0.4.jar:./lib/mina-transport-apr-2.0.4.jar:./lib/mina-filter-compression-2.0.4.jar:./lib/commons-lang-2.6.jar:./lib/mina-statemachine-2.0.4.jar:./lib/mina-integration-beans-2.0.4.jar:./lib/commons-logging-1.0.3.jar:./lib/mina-integration-xbean-2.0.4.jar:./lib/mina-integration-ognl-2.0.4.jar:./lib/mina-integration-jmx-2.0.4.jar:./lib/guava-r05.jar:./bin/ Monitor 9999 512000 1> monitor.log 2> monitor.err", 
+		{cwd:__dirname + "/newrelic/"}, function (error, stdout, stderr) {/*ver que hacer si se muere el proceso java*/});
 }
 
  
