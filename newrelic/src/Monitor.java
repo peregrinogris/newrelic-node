@@ -13,13 +13,14 @@ import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 public class Monitor  {
 		
 	private Monitor(int port, int buffer, boolean debug) throws IOException {
-		NioSocketAcceptor acceptor = new NioSocketAcceptor();
+		NioSocketAcceptor acceptor = new NioSocketAcceptor(4);
 		
 		TextLineCodecFactory factory = new TextLineCodecFactory(Charset.forName("UTF-8"));
 		factory.setDecoderMaxLineLength(buffer);
 		acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(factory));
 		MonitorHandler handler = new MonitorHandler();
 		handler.setDebug(debug);
+		handler.setBuffer(buffer);
         acceptor.setHandler(handler);
         acceptor.bind(new InetSocketAddress(port));
         

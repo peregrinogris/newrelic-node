@@ -1,6 +1,9 @@
+import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.Map;
-import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
@@ -23,14 +26,27 @@ import com.newrelic.org.json.simple.parser.JSONParser;
 public class MonitorHandler extends IoHandlerAdapter {
 	private static final StatsEngine StatsEngine = Agent.instance().getDefaultRPMService().getStatsEngine();
 	private boolean debug;
-	
+	private AtomicLong operations = new AtomicLong(0);
+	private long lastexec = 0;
+	private AtomicLong procTime = new AtomicLong(0);
+	private Timer timer;
+	private int buffer;
+
+	public void setBuffer(int buffer) {
+		this.buffer = buffer;
+	}
+
 	public void exceptionCaught(IoSession session, Throwable t) throws Exception {
 		t.printStackTrace();
 		session.close(true);
 	}
 
 	public void messageReceived(IoSession session, Object msg) throws Exception {
+		long begin = System.currentTimeMillis();
+		operations.getAndIncrement();
 		try {
+			if (debug)
+				System.out.println(msg.toString());
 			JSONObject json = (JSONObject)new JSONParser().parse(msg.toString());
 			
 			String path = json.containsKey("path") ? (String)json.get("path") : "-";
@@ -63,13 +79,9 @@ public class MonitorHandler extends IoHandlerAdapter {
 			StatsEngine.getResponseTimeStats(MetricSpec.DISPATCHER).recordResponseTime(totaltime);
 		    StatsEngine.getApdexStats(MetricSpec.APDEX).recordApdexResponseTime(totaltime);
 		    
-		    for (Map.Entry<Object, Object> entry : (Set<Map.Entry<Object, Object>>)timespent.entrySet()) {
-			}
-		   
 			boolean failed = ((status < 200) || (status > 399));
 			if (failed) {
 				reportAppError(msg.toString(), status, path, method, timespent);
-				return;
 			}
 		} catch (Throwable t) {
 			if (debug)
@@ -77,10 +89,20 @@ public class MonitorHandler extends IoHandlerAdapter {
 			reportParserError(msg.toString(), t);
 		}
 
+		procTime.getAndAdd(System.currentTimeMillis() - begin);
+
 	}
 
 	public void sessionCreated(IoSession session) throws Exception {
-		((SocketSessionConfig) session.getConfig() ).setReceiveBufferSize( 2048 );
+		((SocketSessionConfig) session.getConfig() ).setReceiveBufferSize( buffer );
+		if (timer == null) {
+			synchronized (this) {
+				if (timer == null) {
+					timer = new Timer("Timer-MonitorHandler", true);
+					timer.schedule(new Stats(),30000,30000);
+				}
+			}
+		}
 	}
 
 	private static void reportAppError(String logLine, long status, String path, String method, JSONObject timespent) {
@@ -105,6 +127,36 @@ public class MonitorHandler extends IoHandlerAdapter {
 	public void setDebug(boolean debug) {
 		this.debug = debug;	
 	}	
+	
+
+
+	
+	public class Stats extends TimerTask {
+		private DecimalFormat dformat = new DecimalFormat("#####.00");
+	
+		public Stats() {}
+
+		@Override
+		public void run() {
+			long now = System.currentTimeMillis();
+			long time = now - lastexec;
+			long op = operations.getAndSet(0);
+			long pt = procTime.getAndSet(0);
+			float throughputMilis = (float)op/time;
+
+			StringBuilder sb = new StringBuilder();
+			sb.append("Throughput: ");
+			sb.append(dformat.format(throughputMilis*1000D));
+			sb.append(" op/seg, operations: ");
+			sb.append(op);
+			sb.append(" operations , procTime: ");
+			sb.append(pt);
+			sb.append(" ms");
+
+			lastexec = now;
+			System.out.println(sb.toString());
+		}
+	}
 
 }
 

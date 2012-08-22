@@ -6,11 +6,22 @@ var should = require('should'),
     http = require('http'), 
     request = require('request'),
     exec = require('child_process').exec;
+
+
+var server = http.createServer(function(request, response) {
+	response.writeHead(200, {});
+	response.end();
+ 	server.emit('message', request, response);
+}).listen(8087);
+
     
 describe("process java" ,function(){
    afterEach(function(done){
+	server.removeAllListeners('message');
 	done();	
    });
+
+
 
    it("controla que se lanze el proceso java",function(done){
 	exec("ps -efa | grep java | grep Monitor | grep -v grep",  function (error, stdout, stderr) {
@@ -76,20 +87,48 @@ describe("process java" ,function(){
 	});
 	
     it("log WEB_TRANSACTION_EXTERNAL_ALL",function(done){
-    	this.timeout(5000);
-    	http.createServer(function(request, response) {
-    		response.writeHead(200, {});
-    	 	newrelic.logWebTransactionExternalAll(request, response, 5000);
-    	 	setTimeout(function() {
-    			done();	
-    	 	}, 2000);
-    	}).listen(8087);
+    	server.on('message', function(request, response) {
+	    	newrelic.logWebTransactionExternalAll(request, response, 5000);
+		done();
+    	});
+
     	   request({
                 url:"http://127.0.0.1:8087/ping",
                 method:"GET",
                 jar: false
             },function(error,response,body){
             })
+	});
+
+
+    it("buffer muy grande no descarta nensages",function(done){
+    	this.timeout(50000);
+	var j = 0;
+	newrelic.BUFFER_SIZE = 5000000000000;
+	newrelic.on('buffer_full', function () {
+		should.fail("Nunca deberia ser llamado");
+		
+	});
+    	server.on('message', function(req, res) {
+		newrelic.logWebTransactionExternalAll(req, res, 5000);
+		j++;
+		if (j > 1000)
+			done();
+		else
+			request({
+	        	        url:"http://127.0.0.1:8087/ping",
+	        	        method:"GET",
+	        	        jar: false
+	        	    },function(error,res,body){
+	            });
+    		});
+	request({
+       	        url:"http://127.0.0.1:8087/ping",
+       	        method:"GET",
+       	        jar: false
+       	    },function(error,response,body){
+         });
+
 	});
 })
 

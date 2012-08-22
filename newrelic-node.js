@@ -22,12 +22,30 @@ switch(process.env.NODE_ENV){
 		{cwd:__dirname + "/newrelic/", stdio: 'ignore'}, function (error, stdout, stderr) {/*ver que hacer si se muere el proceso java*/});
 }
 
- 
+var util = require('util'),
+    events = require('events');
+
+function NewRelic() {
+	events.EventEmitter.call(this);  
+}
+
+NewRelic.super_ = events.EventEmitter;
+
+NewRelic.prototype = Object.create(events.EventEmitter.prototype, {
+    constructor: {
+        value: NewRelic,
+        enumerable: false
+    }
+});
+
+module.exports = new NewRelic();
+
+NewRelic.prototype.BUFFER_SIZE = 1000000;
 var connected = false;
 var retry = false;
-const RETRY_INTERVAL = 2000;
+NewRelic.prototype.RETRY_INTERVAL = 2000;
 
-var socket = new net.Socket({ allowHalfOpen: true});
+var socket = new net.Socket();
 socket.on('connect', function() {
   log.inf("Conectado a proceso JAVA");
   connected = true;
@@ -36,19 +54,19 @@ socket.on('connect', function() {
 socket.on('disconnect', function() {
   connected = false;
   log.inf("Desconectado del proceso JAVA");
-  retryConnectOnFailure(RETRY_INTERVAL);
+  retryConnectOnFailure(NewRelic.prototype.RETRY_INTERVAL);
 });
 
 socket.on('error', function() {
   connected = false;
-  log.inf("Error en socket, reintentando en: "+RETRY_INTERVAL+" ms");
-  retryConnectOnFailure(RETRY_INTERVAL);
+  log.inf("Error en socket, reintentando en: "+NewRelic.prototype.RETRY_INTERVAL+" ms");
+  retryConnectOnFailure(NewRelic.prototype.RETRY_INTERVAL);
 });
 
 socket.on('close', function() {
   connected = false;
-  log.inf("Conexion con Monitor cerrada, reconectando en: "+RETRY_INTERVAL+" ms...");
-  retryConnectOnFailure(RETRY_INTERVAL);
+  log.inf("Conexion con Monitor cerrada, reconectando en: "+NewRelic.prototype.RETRY_INTERVAL+" ms...");
+  retryConnectOnFailure(NewRelic.prototype.RETRY_INTERVAL);
 });
 
 var retryConnectOnFailure = function(retryInMilliseconds) {
@@ -66,13 +84,17 @@ var retryConnectOnFailure = function(retryInMilliseconds) {
 
 socket.connect(9999);
 
-exports.log = function(data){
+NewRelic.prototype.log = function(data){
 	if (connected) {
-		socket.write(JSON.stringify(data)+"\n");
+		if (socket.bufferSize > this.BUFFER_SIZE) {
+			this.emit('buffer_full');
+		}
+		else
+			socket.write(JSON.stringify(data)+"\n");
 	}
 };
 
-exports.logRequest = function(req, res, timespent){    
+NewRelic.prototype.logRequest = function(req, res, timespent){    
 	if (connected) {
 		var path = url.parse(req.url).pathname;
 		this.log({"timespent":{URI_WEB_TRANSACTION:timespent}, 
@@ -82,7 +104,7 @@ exports.logRequest = function(req, res, timespent){
 	}
 };
 
-exports.logRequestError = function(messsage, req, res, timespent){    
+NewRelic.prototype.logRequestError = function(messsage, req, res, timespent){    
 	if (connected) {
 		var path = url.parse(req.url).pathname;
 		this.log({"timespent":{URI_WEB_TRANSACTION:timespent}, 
@@ -95,7 +117,7 @@ exports.logRequestError = function(messsage, req, res, timespent){
 	}
 };
 
-exports.logWebTransactionExternalAll = function(req, res, timespent){    
+NewRelic.prototype.logWebTransactionExternalAll = function(req, res, timespent){    
 	if (connected) {
 		var path = url.parse(req.url).pathname;
 		this.log({"timespent":{WEB_TRANSACTION_EXTERNAL_ALL: timespent}, 
@@ -104,7 +126,3 @@ exports.logWebTransactionExternalAll = function(req, res, timespent){
 			"httpMethod":req.method});
 	}
 };
-
-
-
-
