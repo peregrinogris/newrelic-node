@@ -22,7 +22,7 @@ public class Monitor  {
 		handler.setDebug(debug);
         acceptor.setHandler(handler);
         acceptor.bind(new InetSocketAddress(port));
-
+        
         System.out.println("Listening on port " + port);
 	}
 

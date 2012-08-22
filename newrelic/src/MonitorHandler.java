@@ -58,8 +58,6 @@ public class MonitorHandler extends IoHandlerAdapter {
 					StatsEngine.getResponseTimeStats(MetricNames.URI_WEB_TRANSACTION + '/' + path).recordResponseTime(time);					
 					StatsEngine.getApdexStats(MetricSpec.lookup(MetricNames.APDEX + "/Uri/" + path)).recordApdexResponseTime(time);
 				}
-				
-							
 			}
 			
 			StatsEngine.getResponseTimeStats(MetricSpec.DISPATCHER).recordResponseTime(totaltime);
