@@ -8,7 +8,7 @@ common: &default_settings
   enable_custom_tracing: true
   capture_params: true
   ssl: false
-  apdex_t: 0.040
+  apdex_t: 0.5
   log_level: fine
   trace_data_calls: false
   thread_profiler:
