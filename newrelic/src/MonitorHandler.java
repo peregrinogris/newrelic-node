@@ -1,5 +1,8 @@
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -31,6 +34,7 @@ public class MonitorHandler extends IoHandlerAdapter {
 	private AtomicLong procTime = new AtomicLong(0);
 	private Timer timer;
 	private int buffer;
+	private SimpleDateFormat sdf = new SimpleDateFormat("[dd/MMM/yyyy:HH:mm:ss Z]"); 
 
 	public void setBuffer(int buffer) {
 		this.buffer = buffer;
@@ -59,12 +63,23 @@ public class MonitorHandler extends IoHandlerAdapter {
 			
 			for (Object key : timespent.keySet()) {
 				Object timeObj = timespent.get(key);
-				Long time;
+				Long time = 0L;
 				
 				if (timeObj instanceof Double) {
 					time = (long) (((Double) timeObj)*1000);					
-				} else
+				} else if (timeObj instanceof Long) {
 					time = (Long)timeObj;
+				} else if (timeObj instanceof String) {
+					try {
+						synchronized (sdf) {
+							Date requestTime = sdf.parse((String) timeObj);
+							time = begin - requestTime.getTime();
+						}
+					} catch (ParseException e) {
+						reportParserError(msg.toString(), e);
+						return;
+					}				
+				}
 				
 				totaltime += time;
 				
@@ -75,7 +90,7 @@ public class MonitorHandler extends IoHandlerAdapter {
 					StatsEngine.getApdexStats(MetricSpec.lookup(MetricNames.APDEX + "/Uri/" + path)).recordApdexResponseTime(time);
 				}
 			}
-			
+						
 			StatsEngine.getResponseTimeStats(MetricSpec.DISPATCHER).recordResponseTime(totaltime);
 		    StatsEngine.getApdexStats(MetricSpec.APDEX).recordApdexResponseTime(totaltime);
 		    
@@ -128,8 +143,10 @@ public class MonitorHandler extends IoHandlerAdapter {
 		this.debug = debug;	
 	}	
 	
-
-
+	public void setFormatDate(String format) {
+		sdf = new SimpleDateFormat(format); 
+	}	
+	
 	
 	public class Stats extends TimerTask {
 		private DecimalFormat dformat = new DecimalFormat("#####.00");

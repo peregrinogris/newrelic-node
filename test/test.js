@@ -130,5 +130,19 @@ describe("process java" ,function(){
          });
 
 	});
+
+    it("envio de mensaje con timespent en date",function(done){
+	this.timeout(2000);
+	newrelic.log({timespent:{URI_WEB_TRANSACTION: "[03/Sep/2012:10:20:06 -0300]"}, path:"/test", httpStatus:201, httpMethod:"GET"});
+	//termina de implementar
+	done()
+	});
+
+   it("envio de mensaje con timespent en date en formato incorrecto",function(done){
+	this.timeout(2000);
+	newrelic.log({timespent:{URI_WEB_TRANSACTION: "[31/Aug/2012:15:23:06 AASDASD"}, path:"/test", httpStatus:201, httpMethod:"GET"});
+	//termina de implementar
+	done()
+	});
 })
 

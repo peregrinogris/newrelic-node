@@ -6,6 +6,7 @@
 	<classpathentry kind="lib" path="newrelic/lib/guava-r05.jar"/>
 	<classpathentry kind="lib" path="newrelic/lib/newrelic.jar"/>
 	<classpathentry kind="lib" path="newrelic/lib/slf4j-api-1.6.1.jar"/>
+	<classpathentry kind="lib" path="newrelic/lib/commons-cli-1.2.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="newrelic/lib/mina-core-2.0.4.jar"/>
 	<classpathentry kind="lib" path="newrelic/lib/mina-filter-compression-2.0.4.jar"/>
