@@ -11,28 +11,32 @@ Editar el archivo newrelic/newrelic.yml con la license_key y app_name de la apli
 	
 	newrelic.logRequest(request, response, timespent);
 	o
-	newrelic.log(timespent:{"URI_WEB_TRANSACTION":5000}, path:"/test", httpStatus:200, httpMethod:"GET"});
+	newrelic.log({timespent:{"URI_WEB_TRANSACTION":5000}, path:"/test", httpStatus:200, httpMethod:"GET"});
 	o
-	newrelic.log(timespent:{"URI_WEB_TRANSACTION":5000, WEB_TRANSACTION_EXTERNAL_ALL: 1000}}, path:"/test", httpStatus:200, httpMethod:"GET"});
+	newrelic.log({timespent:{"URI_WEB_TRANSACTION":5000, WEB_TRANSACTION_EXTERNAL_ALL: 1000}}, path:"/test", httpStatus:200, httpMethod:"GET"});
 	
 ## Loguear errores:
 	var newrelic = require( "newrelic-node" );
 	newrelic.logRequestError("Un mensaje de error", request, response, timespent);
 	o
-	newrelic.log(timespent:{"URI_WEB_TRANSACTION":12}, error: "Mensaje de error", path:"/error", httpStatus:500, httpMethod:"GET"});		
+	newrelic.log({timespent:{"URI_WEB_TRANSACTION":12}, error: "Mensaje de error", path:"/error", httpStatus:500, httpMethod:"GET"}});		
 
 ## Custom Metrics:
 	var newrelic = require( "newrelic-node" );
-	newrelic.log(timespent:{URI_WEB_TRANSACTION:5}, path:"/test", httpStatus:201, httpMethod:"GET", custom_metric:[{name:"tiempo", type: "time", value:1 }, {name:"tiempo", type: "counter", value:1000 }]);
+	newrelic.log({timespent:{URI_WEB_TRANSACTION:5}, path:"/test", httpStatus:201, httpMethod:"GET", custom_metric:[{name:"tiempo", type: "time", value:1 }, {name:"tiempo", type: "counter", value:1000 }]});
 
 Las custom metrics son de tipo "counter" o "time". Las mismas se pueden graficar en una custom view como /CUSTOM/name.
 
 ## Tipos de timespent:
-WEB_TRANSACTION_EXTERNAL_ALL o External/allWeb
-URI_WEB_TRANSACTION o WebTransaction/Uri
-QUEUE_TIME o WebFrontend/QueueTime
-Database/allWeb
-Solr/allWeb
+- WEB_TRANSACTION_EXTERNAL_ALL o External/allWeb
+
+- URI_WEB_TRANSACTION o WebTransaction/Uri
+
+- QUEUE_TIME o WebFrontend/QueueTime
+
+- Database/allWeb
+
+- Solr/allWeb
 
 Cada timespent es independiente en el dashboard de newrelic, se pueden enviar varios concatenados en el mismo mensaje.
 
