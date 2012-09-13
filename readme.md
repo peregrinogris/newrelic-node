@@ -29,9 +29,13 @@ Las custom metrics son de tipo "counter" o "time". Las mismas se pueden graficar
 
 ## Tipos de timespent:
 WEB_TRANSACTION_EXTERNAL_ALL o External/allWeb
+
 URI_WEB_TRANSACTION o WebTransaction/Uri
+
 QUEUE_TIME o WebFrontend/QueueTime
+
 Database/allWeb
+
 Solr/allWeb
 
 Cada timespent es independiente en el dashboard de newrelic, se pueden enviar varios concatenados en el mismo mensaje.
