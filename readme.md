@@ -19,11 +19,11 @@ Editar el archivo newrelic/newrelic.yml con la license_key y app_name de la apli
 	var newrelic = require( "newrelic-node" );
 	newrelic.logRequestError("Un mensaje de error", request, response, timespent);
 	o
-	newrelic.log(timespent:{"URI_WEB_TRANSACTION":12}, error: "Mensaje de error", path:"/error", httpStatus:500, httpMethod:"GET"});		
+	newrelic.log({timespent:{"URI_WEB_TRANSACTION":12}, error: "Mensaje de error", path:"/error", httpStatus:500, httpMethod:"GET"}});		
 
 ## Custom Metrics:
 	var newrelic = require( "newrelic-node" );
-	newrelic.log(timespent:{URI_WEB_TRANSACTION:5}, path:"/test", httpStatus:201, httpMethod:"GET", custom_metric:[{name:"tiempo", type: "time", value:1 }, {name:"tiempo", type: "counter", value:1000 }]);
+	newrelic.log({timespent:{URI_WEB_TRANSACTION:5}, path:"/test", httpStatus:201, httpMethod:"GET", custom_metric:[{name:"tiempo", type: "time", value:1 }, {name:"tiempo", type: "counter", value:1000 }]});
 
 Las custom metrics son de tipo "counter" o "time". Las mismas se pueden graficar en una custom view como /CUSTOM/name.
 
