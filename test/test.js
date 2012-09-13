@@ -187,5 +187,20 @@ describe("process java" ,function(){
 	done()
 	});
 
+
+    it("envio de Database/allWeb",function(done){
+	this.timeout(2000);
+	newrelic.log({timespent:{"Database/allWeb":8000},path:"/test", httpStatus:200, httpMethod:"GET"});
+	//termina de implementar
+	done()
+	});
+
+    it("envio de Solr/allWeb",function(done){
+	this.timeout(2000);
+	newrelic.log({timespent:{"Solr/allWeb":8000},path:"/test", httpStatus:200, httpMethod:"GET"});
+	//termina de implementar
+	done()
+	});
+
 })
 

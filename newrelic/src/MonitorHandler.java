@@ -84,14 +84,18 @@ public class MonitorHandler extends IoHandlerAdapter {
 				
 				totaltime += time;
 				
-				if ("WEB_TRANSACTION_EXTERNAL_ALL".equals(key)) {
-					StatsEngine.getResponseTimeStats(MetricSpec.WEB_TRANSACTION_EXTERNAL_ALL).recordResponseTime(time);
-				} else if ("URI_WEB_TRANSACTION".equals(key)) {
-					StatsEngine.getResponseTimeStats(MetricNames.URI_WEB_TRANSACTION + '/' + path).recordResponseTime(time);					
+				if ("WEB_TRANSACTION_EXTERNAL_ALL".equals(key) || "External/allWeb".equals(key)) {
+					StatsEngine.getResponseTimeStats("External/allWeb").recordResponseTime(time);
+				} else if ("URI_WEB_TRANSACTION".equals(key) || "WebTransaction/Uri".equals(key)) {
+					StatsEngine.getResponseTimeStats("WebTransaction/Uri"+ '/' + path).recordResponseTime(time);					
 					StatsEngine.getApdexStats(MetricSpec.lookup(MetricNames.APDEX + "/Uri/" + path)).recordApdexResponseTime(time);
-				} if ("QUEUE_TIME".equals(key)) {
+				} else if ("QUEUE_TIME".equals(key) || "WebFrontend/QueueTime".equals(key)) {
 					StatsEngine.getResponseTimeStats("WebFrontend/QueueTime").recordResponseTime(time);
-				}
+				} else if ("Database/allWeb".equals(key)) {
+					StatsEngine.getResponseTimeStats("Database/allWeb").recordResponseTime(time);
+				} if ("Solr/allWeb".equals(key)) {
+					StatsEngine.getResponseTimeStats("Solr/allWeb").recordResponseTime(time);
+				} 
 			}
 						
 			StatsEngine.getResponseTimeStats(MetricSpec.DISPATCHER).recordResponseTime(totaltime);
