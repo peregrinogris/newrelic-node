@@ -28,15 +28,15 @@ Editar el archivo newrelic/newrelic.yml con la license_key y app_name de la apli
 Las custom metrics son de tipo "counter" o "time". Las mismas se pueden graficar en una custom view como /CUSTOM/name.
 
 ## Tipos de timespent:
-WEB_TRANSACTION_EXTERNAL_ALL o External/allWeb
+- WEB_TRANSACTION_EXTERNAL_ALL o External/allWeb
 
-URI_WEB_TRANSACTION o WebTransaction/Uri
+- URI_WEB_TRANSACTION o WebTransaction/Uri
 
-QUEUE_TIME o WebFrontend/QueueTime
+- QUEUE_TIME o WebFrontend/QueueTime
 
-Database/allWeb
+- Database/allWeb
 
-Solr/allWeb
+- Solr/allWeb
 
 Cada timespent es independiente en el dashboard de newrelic, se pueden enviar varios concatenados en el mismo mensaje.
 
