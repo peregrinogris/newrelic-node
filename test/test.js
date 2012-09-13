@@ -144,5 +144,48 @@ describe("process java" ,function(){
 	//termina de implementar
 	done()
 	});
+
+    it("custom metrics contadores",function(done){
+	this.timeout(2000);
+	newrelic.log({timespent:{URI_WEB_TRANSACTION:5000}, path:"/test", httpStatus:201, httpMethod:"GET", custom_metric: [{name:"TestCounter", type: "counter", value:10 }]});
+	//termina de implementar
+	done()
+	});
+
+
+    it("1000 custom metrics contadores",function(done){
+	this.timeout(20000);
+	for (var i = 0; i < 100; i++ )
+		newrelic.log({timespent:{URI_WEB_TRANSACTION:5000}, path:"/test", httpStatus:201, httpMethod:"GET", custom_metric: [{name:"HIT", type: "counter", value:1 }, {name:"MISS", type: "counter", value:2 }]});
+	
+	//termina de implementar
+	done()
+	});
+
+    it("1000 custom metrics tiempo",function(done){
+	this.timeout(20000);
+	for (var i = 0; i < 100; i++ )
+		newrelic.log({timespent:{URI_WEB_TRANSACTION:5000}, path:"/test", httpStatus:201, httpMethod:"GET", custom_metric: [{name:"tiempo", type: "time", value:1 }]});
+	
+	//termina de implementar
+	done()
+	});
+
+    it("1000 custom metrics tiempo1",function(done){
+	this.timeout(20000);
+	for (var i = 0; i < 100; i++ )
+		newrelic.log({timespent:{URI_WEB_TRANSACTION:5000}, path:"/test", httpStatus:201, httpMethod:"GET", custom_metric: [{name:"tiempo1", type: "time", value:20 }]});
+	
+	//termina de implementar
+	done()
+	});
+
+    it("envio de queue_timea",function(done){
+	this.timeout(2000);
+	newrelic.log({timespent:{QUEUE_TIME:8000},path:"/test", httpStatus:200, httpMethod:"GET"});
+	//termina de implementar
+	done()
+	});
+
 })
 

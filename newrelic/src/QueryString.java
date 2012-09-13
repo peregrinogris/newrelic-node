@@ -3,6 +3,7 @@ import java.util.Map;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import com.newrelic.org.json.simple.parser.JSONParser;
 
 public class QueryString {
 		private final Multimap<String, String> paramMap;
@@ -53,4 +54,17 @@ public class QueryString {
 	        sb.append('}');
 	        return sb.toString();
 	    }
+	    
+	    
+		public static void main(String[] args) {
+			try {
+				new JSONParser().parse("{\"timespent\":{\"URI_WEB_TRANSACTION\":\"[03/Sep/2012:11:46:34 -0400]\"}, \"path\":\"/s_MLB_v_I_f_2890203882_072012.jpg\", \"headers\": {\"X-Forwarded-For\":\"10.5.3.131, 200.164.99.11, 10.123.198.167\", \"hitmiss\":\"hit\"}, \"httpMethod\":\"GET\", \"httpStatus\":\"304\"}");
+			} catch (com.newrelic.org.json.simple.parser.ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		
 	}
+

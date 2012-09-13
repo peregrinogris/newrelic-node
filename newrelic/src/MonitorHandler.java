@@ -20,6 +20,7 @@ import com.newrelic.agent.errors.HttpTracedError;
 import com.newrelic.agent.errors.ThrowableError;
 import com.newrelic.agent.stats.StatsEngine;
 import com.newrelic.agent.tracers.RequestDispatcherTracer;
+import com.newrelic.org.json.simple.JSONArray;
 import com.newrelic.org.json.simple.JSONObject;
 import com.newrelic.org.json.simple.parser.JSONParser;
 
@@ -85,15 +86,48 @@ public class MonitorHandler extends IoHandlerAdapter {
 				
 				if ("WEB_TRANSACTION_EXTERNAL_ALL".equals(key)) {
 					StatsEngine.getResponseTimeStats(MetricSpec.WEB_TRANSACTION_EXTERNAL_ALL).recordResponseTime(time);
-				} if ("URI_WEB_TRANSACTION".equals(key)) {
+				} else if ("URI_WEB_TRANSACTION".equals(key)) {
 					StatsEngine.getResponseTimeStats(MetricNames.URI_WEB_TRANSACTION + '/' + path).recordResponseTime(time);					
 					StatsEngine.getApdexStats(MetricSpec.lookup(MetricNames.APDEX + "/Uri/" + path)).recordApdexResponseTime(time);
+				} if ("QUEUE_TIME".equals(key)) {
+					StatsEngine.getResponseTimeStats("WebFrontend/QueueTime").recordResponseTime(time);
 				}
 			}
 						
 			StatsEngine.getResponseTimeStats(MetricSpec.DISPATCHER).recordResponseTime(totaltime);
 		    StatsEngine.getApdexStats(MetricSpec.APDEX).recordApdexResponseTime(totaltime);
 		    
+		    
+		    JSONArray customMetrics = (JSONArray) json.get("custom_metric");
+			if (customMetrics != null) {
+				for (Object key : customMetrics) {
+					JSONObject metric = (JSONObject)key;
+							
+					String name = (String) metric.get("name");
+					String type = (String) metric.get("type");
+					Object value = metric.get("value");
+					if (type.equals("counter")) {
+						if (value instanceof Double) {
+							StatsEngine.getStats("/Custom/"+name).incrementCallCount(((Double)value).intValue());					
+						} else if (value instanceof Long) {
+							StatsEngine.getStats("/Custom/"+name).incrementCallCount(((Long)value).intValue());
+						} else if (value instanceof String) {
+							reportParserError("Custom metric value no reconocible: "+msg.toString());
+						}
+					}
+					
+					if (type.equals("time")) {
+						if (value instanceof Double) {
+							StatsEngine.getResponseTimeStats("/Custom/"+name).recordResponseTime(((Double)value).intValue());					
+						} else if (value instanceof Long) {
+							StatsEngine.getResponseTimeStats("/Custom/"+name).recordResponseTime(((Long)value).intValue());
+						} else if (value instanceof String) {
+							reportParserError("Custom metric value no reconocible: "+msg.toString());
+						}
+					}
+				}
+			}
+			
 			boolean failed = ((status < 200) || (status > 399));
 			if (failed) {
 				reportAppError(msg.toString(), status, path, method, timespent);
@@ -106,6 +140,10 @@ public class MonitorHandler extends IoHandlerAdapter {
 
 		procTime.getAndAdd(System.currentTimeMillis() - begin);
 
+	}
+
+	private void reportParserError(String message) {
+		reportParserError(message, new Throwable());		
 	}
 
 	public void sessionCreated(IoSession session) throws Exception {
@@ -147,6 +185,7 @@ public class MonitorHandler extends IoHandlerAdapter {
 		sdf = new SimpleDateFormat(format); 
 	}	
 	
+
 	
 	public class Stats extends TimerTask {
 		private DecimalFormat dformat = new DecimalFormat("#####.00");
