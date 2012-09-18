@@ -104,6 +104,17 @@ NewRelic.prototype.logRequest = function(req, res, timespent){
 	}
 };
 
+NewRelic.prototype.logRequestWithMessage = function(req, res, timespent, message){    
+	if (connected) {
+		var path = url.parse(req.url).pathname;
+		this.log({"timespent":{URI_WEB_TRANSACTION:timespent}, 
+			"path":path, 
+			"httpStatus":res.statusCode, 
+			"httpMethod":req.method,
+			"message":message});
+	}
+};
+
 NewRelic.prototype.logRequestError = function(messsage, req, res, timespent){    
 	if (connected) {
 		var path = url.parse(req.url).pathname;

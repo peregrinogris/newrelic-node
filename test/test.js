@@ -14,6 +14,13 @@ var server = http.createServer(function(request, response) {
  	server.emit('message', request, response);
 }).listen(8087);
 
+var serverError = http.createServer(function(request, response) {
+	response.writeHead(500, {});
+	response.end();
+ 	serverError.emit('message', request, response);
+}).listen(8088);
+
+
     
 describe("process java" ,function(){
    afterEach(function(done){
@@ -86,6 +93,21 @@ describe("process java" ,function(){
             })
 	});
 	
+    it("logRequestWithMessage",function(done){
+    	serverError.on('message', function(request, response) {
+	    	newrelic.logRequestWithMessage(request, response, 23, "Un mensaje loco");
+		done();
+    	});
+
+    	   request({
+                url:"http://127.0.0.1:8088/logRequestWithMessage",
+                method:"GET",
+                jar: false
+            },function(error,response,body){
+            })
+	});
+
+
     it("log WEB_TRANSACTION_EXTERNAL_ALL",function(done){
     	server.on('message', function(request, response) {
 	    	newrelic.logWebTransactionExternalAll(request, response, 5000);
@@ -186,7 +208,6 @@ describe("process java" ,function(){
 	//termina de implementar
 	done()
 	});
-
 
     it("envio de Database/allWeb",function(done){
 	this.timeout(2000);
