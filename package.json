@@ -15,7 +15,7 @@
         "node-logging" : "0.1.x",
 	"request": "2.9.x"
 	}
-, "scripts": { "test": "export NODE_ENV=testing && mocha --globals myThis,myHolder,myCallee,State_myThis --reporter spec -t 2000 -s 3000 ${TESTFILE} && echo \"Visite https://rpm.newrelic.com/accounts/39947/applications/841797 para ver las metricas logueadas por los test.\""}
+, "scripts": { "test": "export NODE_ENV=production && mocha --globals myThis,myHolder,myCallee,State_myThis --reporter spec -t 2000 -s 3000 ${TESTFILE} && echo \"Visite https://rpm.newrelic.com/accounts/39947/applications/841797 para ver las metricas logueadas por los test.\""}
 , "devDependencies": {
 	"mocha" : "0.14.x",
 	"should" : "0.6.x"
