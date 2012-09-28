@@ -53,15 +53,14 @@ public class MonitorHandler extends IoHandlerAdapter {
 			if (debug)
 				System.out.println(msg.toString());
 			JSONObject json = (JSONObject)new JSONParser().parse(msg.toString());
-			
-			String path = json.containsKey("path") ? (String)json.get("path") : "-";
-			String method = json.containsKey("httpMethod") ? (String)json.get("httpMethod") : "-";
-			long status = json.containsKey("httpStatus") ? (Long)json.get("httpStatus") : 999;
-			long totaltime = 0;
-			
-						
+							
 			JSONObject timespent = (JSONObject) json.get("timespent");
 			if(timespent != null){
+				String path = json.containsKey("path") ? (String)json.get("path") : "-";
+				String method = json.containsKey("httpMethod") ? (String)json.get("httpMethod") : "-";
+				long status = json.containsKey("httpStatus") ? (Long)json.get("httpStatus") : 999;
+				long totaltime = 0;
+	
 				for (Object key : timespent.keySet()) {
 					Object timeObj = timespent.get(key);
 					Long time = 0L;
@@ -98,6 +97,11 @@ public class MonitorHandler extends IoHandlerAdapter {
 				}
 				StatsEngine.getResponseTimeStats(MetricSpec.DISPATCHER).recordResponseTime(totaltime);
 			    StatsEngine.getApdexStats(MetricSpec.APDEX).recordApdexResponseTime(totaltime);
+			    
+				boolean failed = ((status < 200) || (status > 399));
+				if (failed) {
+					reportAppError(msg.toString(), status, path, method, timespent);
+				}
 			}
 		    
 		    JSONArray customMetrics = (JSONArray) json.get("custom_metric");
@@ -128,11 +132,6 @@ public class MonitorHandler extends IoHandlerAdapter {
 						}
 					}
 				}
-			}
-			
-			boolean failed = ((status < 200) || (status > 399));
-			if (failed) {
-				reportAppError(msg.toString(), status, path, method, timespent);
 			}
 		} catch (Throwable t) {
 			if (debug)
