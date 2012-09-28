@@ -1,8 +1,9 @@
 { "name" : "newrelic-node"
 , "description" : "Logger para newrelic"
 , "tags" : ["newrelic"]
-, "version" : "0.2.2"
+, "version" : "0.2.3"
 , "author" : "Matias Rege <matias.rege@mercadolibre.com>"
+,  "contributors": ["Gabriel Eisbruch <gabriel.eisbruch@mercadolibre.com>"]
 , "repository" :
   { "type" : "git"
   , "url" : "http://github.com/mercadolibre/newrelic-node"
