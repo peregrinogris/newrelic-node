@@ -3,31 +3,35 @@ var log = require('node-logging');
 var exec = require('child_process').exec;
 var net = require('net');
 var url = require('url');
+var cluster = require('cluster');
+
 var client;
 
 log.setLevel("info");
 
 log.inf ("Node ENV: "+process.env.NODE_ENV);
 
-var runJava = function () {
-		exec("java -Xms16M -Xmx16M -Xss256k -javaagent:lib/newrelic.jar -Dnewrelic.config.file=newrelic.yml -Dnewrelic.environment=production -cp ./lib/slf4j-api-1.6.1.jar:./lib/mina-core-2.0.4.jar:./lib/mina-transport-apr-2.0.4.jar:./lib/mina-filter-compression-2.0.4.jar:./lib/commons-lang-2.6.jar:./lib/mina-statemachine-2.0.4.jar:./lib/mina-integration-beans-2.0.4.jar:./lib/commons-logging-1.0.3.jar:./lib/mina-integration-xbean-2.0.4.jar:./lib/mina-integration-ognl-2.0.4.jar:./lib/mina-integration-jmx-2.0.4.jar:./lib/guava-r05.jar:./lib/commons-cli-1.2.jar:./bin/ Monitor -port 9999 -buffer 5120000 1> monitor.log 2> monitor.err", 
-		{cwd:__dirname + "/newrelic/", stdio: 'ignore'}, function (error, stdout, stderr) {
-			log.err("Proceso Java Termino, error: ["+error + "], stdout: ["+stdout +"] stderr: ["+stderr+"]");
-			setTimeout(runJava, 15000);
-		}
-		);
-};
+if (cluster.isMaster) {
+	var runJava = function () {
+			exec("java -Xms16M -Xmx16M -Xss256k -javaagent:lib/newrelic.jar -Dnewrelic.config.file=newrelic.yml -Dnewrelic.environment=production -cp ./lib/slf4j-api-1.6.1.jar:./lib/mina-core-2.0.4.jar:./lib/mina-transport-apr-2.0.4.jar:./lib/mina-filter-compression-2.0.4.jar:./lib/commons-lang-2.6.jar:./lib/mina-statemachine-2.0.4.jar:./lib/mina-integration-beans-2.0.4.jar:./lib/commons-logging-1.0.3.jar:./lib/mina-integration-xbean-2.0.4.jar:./lib/mina-integration-ognl-2.0.4.jar:./lib/mina-integration-jmx-2.0.4.jar:./lib/guava-r05.jar:./lib/commons-cli-1.2.jar:./bin/ Monitor -port 9999 -buffer 5120000 1>> monitor.log 2>> monitor.err", 
+			{cwd:__dirname + "/newrelic/", stdio: 'ignore'}, function (error, stdout, stderr) {
+				log.err("Proceso Java Termino, error: ["+error + "], stdout: ["+stdout +"] stderr: ["+stderr+"]");
+				setTimeout(runJava, 15000);
+			}
+			);
+	};
 
-switch(process.env.NODE_ENV){
-	case 'testing':
-		exec("java -Xms16M -Xmx16M -Xss256k -javaagent:lib/newrelic.jar -Dnewrelic.config.file=newrelic-test.yml -Dnewrelic.environment=production -cp ./lib/slf4j-api-1.6.1.jar:./lib/mina-core-2.0.4.jar:./lib/mina-transport-apr-2.0.4.jar:./lib/mina-filter-compression-2.0.4.jar:./lib/commons-lang-2.6.jar:./lib/mina-statemachine-2.0.4.jar:./lib/mina-integration-beans-2.0.4.jar:./lib/commons-logging-1.0.3.jar:./lib/mina-integration-xbean-2.0.4.jar:./lib/mina-integration-ognl-2.0.4.jar:./lib/mina-integration-jmx-2.0.4.jar:./lib/guava-r05.jar:./lib/commons-cli-1.2.jar:./bin/ Monitor -port 9999 -buffer 5120000 1> monitor.log 2> monitor.err", 
-		{cwd:__dirname + "/newrelic/", stdio: 'ignore'}, function (error, stdout, stderr) {/*ver que hacer si se muere el proceso java*/});
-		break;
-	case 'development':
-		//entorno de desarollo, no hago nada
-		break;
-	default:
-		runJava();
+	switch(process.env.NODE_ENV){
+		case 'testing':
+			exec("java -Xms16M -Xmx16M -Xss256k -javaagent:lib/newrelic.jar -Dnewrelic.config.file=newrelic-test.yml -Dnewrelic.environment=production -cp ./lib/slf4j-api-1.6.1.jar:./lib/mina-core-2.0.4.jar:./lib/mina-transport-apr-2.0.4.jar:./lib/mina-filter-compression-2.0.4.jar:./lib/commons-lang-2.6.jar:./lib/mina-statemachine-2.0.4.jar:./lib/mina-integration-beans-2.0.4.jar:./lib/commons-logging-1.0.3.jar:./lib/mina-integration-xbean-2.0.4.jar:./lib/mina-integration-ognl-2.0.4.jar:./lib/mina-integration-jmx-2.0.4.jar:./lib/guava-r05.jar:./lib/commons-cli-1.2.jar:./bin/ Monitor -port 9999 -buffer 5120000 1>> monitor.log 2>> monitor.err", 
+			{cwd:__dirname + "/newrelic/", stdio: 'ignore'}, function (error, stdout, stderr) {/*ver que hacer si se muere el proceso java*/});
+			break;
+		case 'development':
+			//entorno de desarollo, no hago nada
+			break;
+		default:
+			runJava();
+	}
 }
 
 
