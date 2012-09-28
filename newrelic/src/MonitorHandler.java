@@ -61,46 +61,44 @@ public class MonitorHandler extends IoHandlerAdapter {
 			
 						
 			JSONObject timespent = (JSONObject) json.get("timespent");
-			
-			for (Object key : timespent.keySet()) {
-				Object timeObj = timespent.get(key);
-				Long time = 0L;
-				
-				if (timeObj instanceof Double) {
-					time = (long) (((Double) timeObj)*1000);					
-				} else if (timeObj instanceof Long) {
-					time = (Long)timeObj;
-				} else if (timeObj instanceof String) {
-					try {
-						synchronized (sdf) {
-							Date requestTime = sdf.parse((String) timeObj);
-							time = begin - requestTime.getTime();
-						}
-					} catch (ParseException e) {
-						reportParserError(msg.toString(), e);
-						return;
-					}				
+			if(timespent != null){
+				for (Object key : timespent.keySet()) {
+					Object timeObj = timespent.get(key);
+					Long time = 0L;
+					
+					if (timeObj instanceof Double) {
+						time = (long) (((Double) timeObj)*1000);					
+					} else if (timeObj instanceof Long) {
+						time = (Long)timeObj;
+					} else if (timeObj instanceof String) {
+						try {
+							synchronized (sdf) {
+								Date requestTime = sdf.parse((String) timeObj);
+								time = begin - requestTime.getTime();
+							}
+						} catch (ParseException e) {
+							reportParserError(msg.toString(), e);
+							return;
+						}				
+					}
+					
+					totaltime += time;
+					if ("WEB_TRANSACTION_EXTERNAL_ALL".equals(key) || "External/allWeb".equals(key)) {
+						StatsEngine.getResponseTimeStats("External/allWeb").recordResponseTime(time);
+					} else if ("URI_WEB_TRANSACTION".equals(key) || "WebTransaction/Uri".equals(key)) {
+						StatsEngine.getResponseTimeStats("WebTransaction/Uri"+ '/' + path).recordResponseTime(time);					
+						StatsEngine.getApdexStats(MetricSpec.lookup(MetricNames.APDEX + "/Uri/" + path)).recordApdexResponseTime(time);
+					} else if ("QUEUE_TIME".equals(key) || "WebFrontend/QueueTime".equals(key)) {
+						StatsEngine.getResponseTimeStats("WebFrontend/QueueTime").recordResponseTime(time);
+					} else if ("Database/allWeb".equals(key)) {
+						StatsEngine.getResponseTimeStats("Database/allWeb").recordResponseTime(time);
+					} if ("Solr/allWeb".equals(key)) {
+						StatsEngine.getResponseTimeStats("Solr/allWeb").recordResponseTime(time);
+					} 
 				}
-				
-				totaltime += time;
-				
-				if ("WEB_TRANSACTION_EXTERNAL_ALL".equals(key) || "External/allWeb".equals(key)) {
-					StatsEngine.getResponseTimeStats("External/allWeb").recordResponseTime(time);
-				} else if ("URI_WEB_TRANSACTION".equals(key) || "WebTransaction/Uri".equals(key)) {
-					StatsEngine.getResponseTimeStats("WebTransaction/Uri"+ '/' + path).recordResponseTime(time);					
-					StatsEngine.getApdexStats(MetricSpec.lookup(MetricNames.APDEX + "/Uri/" + path)).recordApdexResponseTime(time);
-				} else if ("QUEUE_TIME".equals(key) || "WebFrontend/QueueTime".equals(key)) {
-					StatsEngine.getResponseTimeStats("WebFrontend/QueueTime").recordResponseTime(time);
-				} else if ("Database/allWeb".equals(key)) {
-					StatsEngine.getResponseTimeStats("Database/allWeb").recordResponseTime(time);
-				} if ("Solr/allWeb".equals(key)) {
-					StatsEngine.getResponseTimeStats("Solr/allWeb").recordResponseTime(time);
-				} 
+				StatsEngine.getResponseTimeStats(MetricSpec.DISPATCHER).recordResponseTime(totaltime);
+			    StatsEngine.getApdexStats(MetricSpec.APDEX).recordApdexResponseTime(totaltime);
 			}
-						
-			StatsEngine.getResponseTimeStats(MetricSpec.DISPATCHER).recordResponseTime(totaltime);
-		    StatsEngine.getApdexStats(MetricSpec.APDEX).recordApdexResponseTime(totaltime);
-		    
 		    
 		    JSONArray customMetrics = (JSONArray) json.get("custom_metric");
 			if (customMetrics != null) {
@@ -217,6 +215,5 @@ public class MonitorHandler extends IoHandlerAdapter {
 			System.out.println(sb.toString());
 		}
 	}
-
 }
 
