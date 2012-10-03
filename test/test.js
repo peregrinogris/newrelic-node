@@ -174,6 +174,13 @@ describe("process java" ,function(){
 	done()
 	});
 
+    it("custom metrics contador con string en value",function(done){
+	this.timeout(2000);
+	newrelic.log({timespent:{URI_WEB_TRANSACTION:5000}, path:"/test", httpStatus:201, httpMethod:"GET", custom_metric: [{name:"TestCounter", type: "counter", value:"miss" }]});
+	newrelic.log({timespent:{URI_WEB_TRANSACTION:5000}, path:"/test", httpStatus:201, httpMethod:"GET", custom_metric: [{name:"TestCounter", type: "counter", value:"hit" }]});
+	//termina de implementar
+	done()
+	});
 
     it("1000 custom metrics contadores",function(done){
 	this.timeout(20000);

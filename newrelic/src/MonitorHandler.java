@@ -118,6 +118,8 @@ public class MonitorHandler extends IoHandlerAdapter {
 						} else if (value instanceof Long) {
 							StatsEngine.getStats("/Custom/"+name).incrementCallCount(((Long)value).intValue());
 						} else if (value instanceof String) {
+							StatsEngine.getStats("/Custom/"+name+"/"+value).incrementCallCount();
+						} else {						
 							reportParserError("Custom metric value no reconocible: "+msg.toString());
 						}
 					}
