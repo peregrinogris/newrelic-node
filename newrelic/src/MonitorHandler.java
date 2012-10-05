@@ -68,7 +68,13 @@ public class MonitorHandler extends IoHandlerAdapter {
 					if (timeObj instanceof Double) {
 						time = (long) (((Double) timeObj)*1000);					
 					} else if (timeObj instanceof Long) {
-						time = (Long)timeObj;
+						Long t = (Long)timeObj;
+						//si el numero es muy grande, entonces asume que el time esta en epoch y es el tiempo de inicio del request.
+						if (t > 1000000000) {
+							time = begin - (t/1000);
+						} else {
+							time = t;
+						}
 					} else if (timeObj instanceof String) {
 						try {
 							synchronized (sdf) {
@@ -215,6 +221,10 @@ public class MonitorHandler extends IoHandlerAdapter {
 			lastexec = now;
 			System.out.println(sb.toString());
 		}
+	}
+	
+	private void mai() {
+		System.out.println(System.currentTimeMillis());
 	}
 }
 

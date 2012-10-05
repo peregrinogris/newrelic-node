@@ -155,7 +155,7 @@ describe("process java" ,function(){
 
     it("envio de mensaje con timespent en date",function(done){
 	this.timeout(2000);
-	newrelic.log({timespent:{URI_WEB_TRANSACTION: "[03/Sep/2012:10:20:06 -0300]"}, path:"/test", httpStatus:201, httpMethod:"GET"});
+	newrelic.log({timespent:{URI_WEB_TRANSACTION: "[04/Oct/2012:08:21:00 -0300]"}, path:"/test", httpStatus:201, httpMethod:"GET"});
 	//termina de implementar
 	done()
 	});
@@ -163,6 +163,15 @@ describe("process java" ,function(){
    it("envio de mensaje con timespent en date en formato incorrecto",function(done){
 	this.timeout(2000);
 	newrelic.log({timespent:{URI_WEB_TRANSACTION: "[31/Aug/2012:15:23:06 AASDASD"}, path:"/test", httpStatus:201, httpMethod:"GET"});
+	//termina de implementar
+	done()
+	});
+
+
+    it("logue de tiempo usando el tiempo en epoch",function(done){
+	this.timeout(2000);
+	var milliseconds = ((new Date).getTime() - 2500)*1000;
+	newrelic.log({timespent:{URI_WEB_TRANSACTION: milliseconds}, path:"/testepoch", httpStatus:200, httpMethod:"GET"});
 	//termina de implementar
 	done()
 	});
