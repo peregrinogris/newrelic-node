@@ -50,7 +50,7 @@ describe("process java" ,function(){
      	
     it("envio de mensaje a proceso java",function(done){
 	this.timeout(2000);
-	newrelic.log({timespent:{URI_WEB_TRANSACTION:5000},path:"/test", httpStatus:200, httpMethod:"GET"});
+	newrelic.log({timespent:{URI_WEB_TRANSACTION:200},path:"/test", httpStatus:200, httpMethod:"GET"});
 	//termina de implementar
 	done()
 	});
@@ -60,9 +60,9 @@ describe("process java" ,function(){
     	this.timeout(5000);
     	http.createServer(function(request, response) {
     		response.writeHead(200, {});
-    	 	newrelic.logRequest(request, response, 5000);
-    	 	newrelic.logRequest(request, response, 5000);
-    	 	newrelic.logRequest(request, response, 5000);
+    	 	newrelic.logRequest(request, response, 200);
+    	 	newrelic.logRequest(request, response, 200);
+    	 	newrelic.logRequest(request, response, 200);
     	 	setTimeout(function() {
     			done();	
     	 	}, 2000);
@@ -80,7 +80,7 @@ describe("process java" ,function(){
     	this.timeout(5000);
     	http.createServer(function(request, response) {
     		response.writeHead(500, {});
-    	 	newrelic.logRequestError("Un error", request, response, 5000);
+    	 	newrelic.logRequestError("Un error", request, response, 200);
     	 	setTimeout(function() {
     			done();	
     	 	}, 2000);
@@ -110,7 +110,7 @@ describe("process java" ,function(){
 
     it("log WEB_TRANSACTION_EXTERNAL_ALL",function(done){
     	server.on('message', function(request, response) {
-	    	newrelic.logWebTransactionExternalAll(request, response, 5000);
+	    	newrelic.logWebTransactionExternalAll(request, response, 200);
 		done();
     	});
 
@@ -124,15 +124,15 @@ describe("process java" ,function(){
 
 
     it("buffer muy grande no descarta nensages",function(done){
-    	this.timeout(50000);
+    	this.timeout(2000);
 	var j = 0;
-	newrelic.BUFFER_SIZE = 5000000000000;
+	newrelic.BUFFER_SIZE = 200000000000;
 	newrelic.on('buffer_full', function () {
 		should.fail("Nunca deberia ser llamado");
 		
 	});
     	server.on('message', function(req, res) {
-		newrelic.logWebTransactionExternalAll(req, res, 5000);
+		newrelic.logWebTransactionExternalAll(req, res, 200);
 		j++;
 		if (j > 1000)
 			done();
@@ -178,15 +178,15 @@ describe("process java" ,function(){
 
     it("custom metrics contadores",function(done){
 	this.timeout(2000);
-	newrelic.log({timespent:{URI_WEB_TRANSACTION:5000}, path:"/test", httpStatus:201, httpMethod:"GET", custom_metric: [{name:"TestCounter", type: "counter", value:10 }]});
+	newrelic.log({timespent:{URI_WEB_TRANSACTION:200}, path:"/test", httpStatus:201, httpMethod:"GET", custom_metric: [{name:"TestCounter", type: "counter", value:10 }]});
 	//termina de implementar
 	done()
 	});
 
     it("custom metrics contador con string en value",function(done){
 	this.timeout(2000);
-	newrelic.log({timespent:{URI_WEB_TRANSACTION:5000}, path:"/test", httpStatus:201, httpMethod:"GET", custom_metric: [{name:"TestCounter", type: "counter", value:"miss" }]});
-	newrelic.log({timespent:{URI_WEB_TRANSACTION:5000}, path:"/test", httpStatus:201, httpMethod:"GET", custom_metric: [{name:"TestCounter", type: "counter", value:"hit" }]});
+	newrelic.log({timespent:{URI_WEB_TRANSACTION:200}, path:"/test", httpStatus:201, httpMethod:"GET", custom_metric: [{name:"TestCounter", type: "counter", value:"miss" }]});
+	newrelic.log({timespent:{URI_WEB_TRANSACTION:200}, path:"/test", httpStatus:201, httpMethod:"GET", custom_metric: [{name:"TestCounter", type: "counter", value:"hit" }]});
 	//termina de implementar
 	done()
 	});
@@ -194,7 +194,7 @@ describe("process java" ,function(){
     it("1000 custom metrics contadores",function(done){
 	this.timeout(20000);
 	for (var i = 0; i < 100; i++ )
-		newrelic.log({timespent:{URI_WEB_TRANSACTION:5000}, path:"/test", httpStatus:201, httpMethod:"GET", custom_metric: [{name:"HIT", type: "counter", value:1 }, {name:"MISS", type: "counter", value:2 }]});
+		newrelic.log({timespent:{URI_WEB_TRANSACTION:200}, path:"/1000custommetriccontadoes", httpStatus:201, httpMethod:"GET", custom_metric: [{name:"HIT", type: "counter", value:1 }, {name:"MISS", type: "counter", value:2 }]});
 	
 	//termina de implementar
 	done()
@@ -203,7 +203,7 @@ describe("process java" ,function(){
     it("1000 custom metrics tiempo",function(done){
 	this.timeout(20000);
 	for (var i = 0; i < 100; i++ )
-		newrelic.log({timespent:{URI_WEB_TRANSACTION:5000}, path:"/test", httpStatus:201, httpMethod:"GET", custom_metric: [{name:"tiempo", type: "time", value:1 }]});
+		newrelic.log({timespent:{URI_WEB_TRANSACTION:200}, path:"/1000custommetricstiempo", httpStatus:201, httpMethod:"GET", custom_metric: [{name:"tiempo", type: "time", value:1 }]});
 	
 	//termina de implementar
 	done()
@@ -212,7 +212,7 @@ describe("process java" ,function(){
     it("1000 custom metrics tiempo1",function(done){
 	this.timeout(20000);
 	for (var i = 0; i < 100; i++ )
-		newrelic.log({timespent:{URI_WEB_TRANSACTION:5000}, path:"/test", httpStatus:201, httpMethod:"GET", custom_metric: [{name:"tiempo1", type: "time", value:20 }]});
+		newrelic.log({timespent:{URI_WEB_TRANSACTION:200}, path:"/1000custommetricstiempo1", httpStatus:201, httpMethod:"GET", custom_metric: [{name:"tiempo1", type: "time", value:20 }]});
 	
 	//termina de implementar
 	done()
@@ -220,24 +220,46 @@ describe("process java" ,function(){
 
     it("envio de queue_timea",function(done){
 	this.timeout(2000);
-	newrelic.log({timespent:{QUEUE_TIME:8000},path:"/test", httpStatus:200, httpMethod:"GET"});
+	newrelic.log({timespent:{QUEUE_TIME:80},path:"/queuetime", httpStatus:200, httpMethod:"GET"});
 	//termina de implementar
 	done()
 	});
 
     it("envio de Database/allWeb",function(done){
 	this.timeout(2000);
-	newrelic.log({timespent:{"Database/allWeb":8000},path:"/test", httpStatus:200, httpMethod:"GET"});
+	newrelic.log({timespent:{"Database/allWeb":80},path:"/DatabaseallWeb", httpStatus:200, httpMethod:"GET"});
 	//termina de implementar
 	done()
 	});
 
     it("envio de Solr/allWeb",function(done){
 	this.timeout(2000);
-	newrelic.log({timespent:{"Solr/allWeb":8000},path:"/test", httpStatus:200, httpMethod:"GET"});
+	newrelic.log({timespent:{"Solr/allWeb":80},path:"/testSolrallWeb", httpStatus:200, httpMethod:"GET"});
 	//termina de implementar
 	done()
 	});
+
+    it("un calls",function(done){
+	this.timeout(2000);
+	newrelic.log({timespent:{URI_WEB_TRANSACTION:80},path:"/calls", httpStatus:200, httpMethod:"GET", calls:1});
+	//termina de implementar
+	done()
+	});
+
+    it("1000 calls",function(done){
+	this.timeout(2000);
+	newrelic.log({timespent:{URI_WEB_TRANSACTION:80},path:"/1000calls", httpStatus:200, httpMethod:"GET", calls:1000});
+	//termina de implementar
+	done()
+	});
+
+    it("custom metrics contadores + calls",function(done){
+	this.timeout(2000);
+	newrelic.log({timespent:{URI_WEB_TRANSACTION:120}, path:"/TestCounterCalls", httpStatus:201, httpMethod:"GET", custom_metric: [{name:"TestCounterCalls", type: "counter", value:10 }],  calls: 1000});
+	//termina de implementar
+	done()
+	});
+
 
 })
 

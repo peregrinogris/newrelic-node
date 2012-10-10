@@ -55,6 +55,8 @@ public class MonitorHandler extends IoHandlerAdapter {
 			JSONObject json = (JSONObject)new JSONParser().parse(msg.toString());
 							
 			JSONObject timespent = (JSONObject) json.get("timespent");
+			int calls = json.containsKey("calls") ? ((Long)json.get("calls")).intValue() : 1;
+			
 			if(timespent != null){
 				String path = json.containsKey("path") ? (String)json.get("path") : "-";
 				String method = json.containsKey("httpMethod") ? (String)json.get("httpMethod") : "-";
@@ -88,25 +90,28 @@ public class MonitorHandler extends IoHandlerAdapter {
 					}
 					
 					totaltime += time;
-					if ("WEB_TRANSACTION_EXTERNAL_ALL".equals(key) || "External/allWeb".equals(key)) {
-						StatsEngine.getResponseTimeStats("External/allWeb").recordResponseTime(time);
-					} else if ("URI_WEB_TRANSACTION".equals(key) || "WebTransaction/Uri".equals(key)) {
-						StatsEngine.getResponseTimeStats("WebTransaction/Uri"+ '/' + path).recordResponseTime(time);					
-						StatsEngine.getApdexStats(MetricSpec.lookup(MetricNames.APDEX + "/Uri/" + path)).recordApdexResponseTime(time);
-					} else if ("QUEUE_TIME".equals(key) || "WebFrontend/QueueTime".equals(key)) {
-						StatsEngine.getResponseTimeStats("WebFrontend/QueueTime").recordResponseTime(time);
-					} else if ("Database/allWeb".equals(key)) {
-						StatsEngine.getResponseTimeStats("Database/allWeb").recordResponseTime(time);
-					} if ("Solr/allWeb".equals(key)) {
-						StatsEngine.getResponseTimeStats("Solr/allWeb").recordResponseTime(time);
-					} 
+					for (int i = 0; i < calls; i++) {
+						if ("WEB_TRANSACTION_EXTERNAL_ALL".equals(key) || "External/allWeb".equals(key)) {
+							StatsEngine.getResponseTimeStats("External/allWeb").recordResponseTime(time);							
+						} else if ("URI_WEB_TRANSACTION".equals(key) || "WebTransaction/Uri".equals(key)) {
+							StatsEngine.getResponseTimeStats("WebTransaction/Uri"+ '/' + path).recordResponseTime(time);					
+							StatsEngine.getApdexStats(MetricSpec.lookup(MetricNames.APDEX + "/Uri/" + path)).recordApdexResponseTime(time);
+						} else {
+							StatsEngine.getResponseTimeStats((String)key).recordResponseTime(time);
+						} 
+					}
 				}
-				StatsEngine.getResponseTimeStats(MetricSpec.DISPATCHER).recordResponseTime(totaltime);
-			    StatsEngine.getApdexStats(MetricSpec.APDEX).recordApdexResponseTime(totaltime);
+				
+				for (int i = 0; i < calls; i++) {
+					StatsEngine.getResponseTimeStats(MetricSpec.DISPATCHER).recordResponseTime(totaltime);
+					StatsEngine.getApdexStats(MetricSpec.APDEX).recordApdexResponseTime(totaltime);
+				}
 			    
 				boolean failed = ((status < 200) || (status > 399));
 				if (failed) {
-					reportAppError(msg.toString(), status, path, method, timespent);
+					for (int i = 0; i < calls; i++) {
+						reportAppError(msg.toString(), status, path, method, timespent);
+					}
 				}
 			}
 		    
@@ -120,11 +125,11 @@ public class MonitorHandler extends IoHandlerAdapter {
 					Object value = metric.get("value");
 					if (type.equals("counter")) {
 						if (value instanceof Double) {
-							StatsEngine.getStats("/Custom/"+name).incrementCallCount(((Double)value).intValue());					
+							StatsEngine.getStats("/Custom/"+name).incrementCallCount(((Double)value).intValue()*calls);					
 						} else if (value instanceof Long) {
-							StatsEngine.getStats("/Custom/"+name).incrementCallCount(((Long)value).intValue());
+							StatsEngine.getStats("/Custom/"+name).incrementCallCount(((Long)value).intValue()*calls);
 						} else if (value instanceof String) {
-							StatsEngine.getStats("/Custom/"+name+"/"+value).incrementCallCount();
+							StatsEngine.getStats("/Custom/"+name+"/"+value).incrementCallCount(calls);
 						} else {						
 							reportParserError("Custom metric value no reconocible: "+msg.toString());
 						}
@@ -132,9 +137,13 @@ public class MonitorHandler extends IoHandlerAdapter {
 					
 					if (type.equals("time")) {
 						if (value instanceof Double) {
-							StatsEngine.getResponseTimeStats("/Custom/"+name).recordResponseTime(((Double)value).intValue());					
+							for (int i = 0; i < calls; i++) {
+								StatsEngine.getResponseTimeStats("/Custom/"+name).recordResponseTime(((Double)value).intValue());
+							}
 						} else if (value instanceof Long) {
-							StatsEngine.getResponseTimeStats("/Custom/"+name).recordResponseTime(((Long)value).intValue());
+							for (int i = 0; i < calls; i++) {
+								StatsEngine.getResponseTimeStats("/Custom/"+name).recordResponseTime(((Long)value).intValue());
+							}
 						} else if (value instanceof String) {
 							reportParserError("Custom metric value no reconocible: "+msg.toString());
 						}

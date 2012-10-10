@@ -14,6 +14,8 @@ Editar el archivo newrelic/newrelic.yml con la license_key y app_name de la apli
 	newrelic.log({timespent:{"URI_WEB_TRANSACTION":5000}, path:"/test", httpStatus:200, httpMethod:"GET"});
 	o
 	newrelic.log({timespent:{"URI_WEB_TRANSACTION":5000, WEB_TRANSACTION_EXTERNAL_ALL: 1000}}, path:"/test", httpStatus:200, httpMethod:"GET"});
+	o
+	newrelic.log({timespent:{"URI_WEB_TRANSACTION":100}, path:"/test", httpStatus:200, httpMethod:"GET", calls:100}); //simula 100 request
 	
 ## Loguear errores:
 	var newrelic = require( "newrelic-node" );
@@ -40,6 +42,17 @@ Las custom metrics son de tipo "counter" o "time". Las mismas se pueden graficar
 
 Cada timespent es independiente en el dashboard de newrelic, se pueden enviar varios concatenados en el mismo mensaje.
 
+## Formato de Json:
+	{timespent:
+		{type_timespent:(number|double|date), type_timespent:(number|double|date)},
+		path:string, 
+		httpStatus:number, 
+		httpMethod:string, 
+		custom_metric:[
+			{name:string, type:string, value:(numbre|double) }, 
+			{name:string, type:string, value:(number|double) }
+		],
+		calls: number}
 
 ## Entorno de desarrollo:
 Para que no levante el proceso en entorno de desarrollo se puede usar:
