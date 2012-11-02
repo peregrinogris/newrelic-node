@@ -6,7 +6,11 @@ Agente de newrelic para node.
 ## Configuración
 Editar el archivo newrelic/newrelic.yml con la license_key y app_name de la aplicación correspondiente.
 
-## Uso:
+## Use con Express:
+	var newrelic = require( "newrelic-node" );
+	app.use(newrelic.express);	
+
+## Uso manual:
 	var newrelic = require( "newrelic-node" );
 	
 	newrelic.logRequest(request, response, timespent);
@@ -20,7 +24,7 @@ Editar el archivo newrelic/newrelic.yml con la license_key y app_name de la apli
 	newrelic.log({timespent:{"URI_WEB_TRANSACTION":100}, 
 		path:"/test", httpStatus:200, httpMethod:"GET", calls:100}); //simula 100 request
 	
-## Loguear errores:
+## Loguear errores manualmente:
 	var newrelic = require( "newrelic-node" );
 	newrelic.logRequestError("Un mensaje de error", request, response, timespent);
 	o

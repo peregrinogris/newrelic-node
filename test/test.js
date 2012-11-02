@@ -21,8 +21,41 @@ var serverError = http.createServer(function(request, response) {
 }).listen(8088);
 
 
+function DateFmt() {
+  this.dateMarkers = { 
+     d:['getDate',function(v) { return ("0"+v).substr(-2,2)}], 
+         m:['getMonth',function(v) { return ("0"+v).substr(-2,2)}],
+         n:['getMonth',function(v) {
+             var mthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+             return mthNames[v];
+             }],
+         w:['getDay',function(v) {
+             var dayNames = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+             return dayNames[v];
+             }],
+         y:['getFullYear'],
+         H:['getHours',function(v) { return ("0"+v).substr(-2,2)}],
+         M:['getMinutes',function(v) { return ("0"+v).substr(-2,2)}],
+         S:['getSeconds',function(v) { return ("0"+v).substr(-2,2)}],
+         i:['toISOString',null]
+  };
+
+  this.format = function(date, fmt) {
+    var dateMarkers = this.dateMarkers
+    var dateTxt = fmt.replace(/%(.)/g, function(m, p){
+    var rv = date[(dateMarkers[p])[0]]()
+
+    if ( dateMarkers[p][1] != null ) rv = dateMarkers[p][1](rv)
+
+    return rv
+  });
+
+  return dateTxt
+  }
+}
+
     
-describe("process java" ,function(){
+describe("manual logs" ,function(){
    afterEach(function(done){
 	server.removeAllListeners('message');
 	done();	
@@ -155,10 +188,15 @@ describe("process java" ,function(){
 
     it("envio de mensaje con timespent en date",function(done){
 	this.timeout(2000);
-	newrelic.log({timespent:{URI_WEB_TRANSACTION: "[04/Oct/2012:08:21:00 -0300]"}, path:"/test", httpStatus:201, httpMethod:"GET"});
+	var fmt = new DateFmt();
+	var v = fmt.format(new Date(),"[%d/%n/%y:%H:%M:%S -0300]");
+	newrelic.log({timespent:{URI_WEB_TRANSACTION: v}, path:"/test", httpStatus:201, httpMethod:"GET"});
 	//termina de implementar
 	done()
 	});
+
+	//newrelic.log({timespent:{URI_WEB_TRANSACTION: "[04/Oct/2012:08:21:00 -0300]" [02/Nov/2012:14:40:16 -3000]}, path:"/test", httpStatus:201, httpMethod:"GET"});
+
 
    it("envio de mensaje con timespent en date en formato incorrecto",function(done){
 	this.timeout(2000);
@@ -258,6 +296,67 @@ describe("process java" ,function(){
 	newrelic.log({timespent:{URI_WEB_TRANSACTION:120}, path:"/TestCounterCalls", httpStatus:201, httpMethod:"GET", custom_metric: [{name:"TestCounterCalls", type: "counter", value:10 }],  calls: 1000});
 	//termina de implementar
 	done()
+	});
+
+    it("test path sin barra",function(done){
+	this.timeout(2000);
+	newrelic.log({timespent:{URI_WEB_TRANSACTION:120}, path:"sinbarra", httpStatus:200, httpMethod:"GET"});
+	//termina de implementar
+	done()
+	});
+
+    it("test path con barra",function(done){
+	this.timeout(2000);
+	newrelic.log({timespent:{URI_WEB_TRANSACTION:120}, path:"/conbarra", httpStatus:200, httpMethod:"GET"});
+	//termina de implementar
+	done()
+	});
+
+
+});
+
+var express = require('express');
+var app = express();
+
+// simple logger
+app.use(newrelic.express);
+app.listen(3000);
+app.get('/express/:status/:sleep', function(req, res){	
+	require('sleep').sleep(parseInt(req.param('sleep')));
+	res.writeHead(parseInt(req.param('status')), { "status" : req.param('status'), "sleep" : req.param('sleep')});
+	res.end();
+});
+
+
+describe("express integration" ,function(){
+    it("test with express status 200", function(done){
+	this.timeout(5000);
+
+	request({
+       	        url:"http://127.0.0.1:3000/express/200/1",
+       	        method:"GET",
+       	        jar: false
+       	    },function(error,response,body){
+		should.not.exist(error);
+		done();
+		
+         });
+
+	});
+
+    it("test with express status 500", function(done){
+	this.timeout(5000);
+
+	request({
+       	        url:"http://127.0.0.1:3000/express/500/1",
+       	        method:"GET",
+       	        jar: false
+       	    },function(error,response,body){
+		should.not.exist(error);
+		done();
+		
+         });
+
 	});
 
 
