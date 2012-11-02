@@ -58,7 +58,8 @@ public class MonitorHandler extends IoHandlerAdapter {
 			int calls = json.containsKey("calls") ? ((Long)json.get("calls")).intValue() : 1;
 			
 			if(timespent != null){
-				String path = json.containsKey("path") ? (String)json.get("path") : "-";
+				String pathTmp = json.containsKey("path") ? (String)json.get("path") : "-";
+				String path = !pathTmp.startsWith("/") ? "/"+pathTmp: pathTmp;
 				String method = json.containsKey("httpMethod") ? (String)json.get("httpMethod") : "-";
 				long status = json.containsKey("httpStatus") ? (Long)json.get("httpStatus") : 999;
 				long totaltime = 0;
@@ -94,8 +95,8 @@ public class MonitorHandler extends IoHandlerAdapter {
 						if ("WEB_TRANSACTION_EXTERNAL_ALL".equals(key) || "External/allWeb".equals(key)) {
 							StatsEngine.getResponseTimeStats("External/allWeb").recordResponseTime(time);							
 						} else if ("URI_WEB_TRANSACTION".equals(key) || "WebTransaction/Uri".equals(key)) {
-							StatsEngine.getResponseTimeStats("WebTransaction/Uri"+ '/' + path).recordResponseTime(time);					
-							StatsEngine.getApdexStats(MetricSpec.lookup(MetricNames.APDEX + "/Uri/" + path)).recordApdexResponseTime(time);
+							StatsEngine.getResponseTimeStats("WebTransaction/Uri"+ path).recordResponseTime(time);					
+							StatsEngine.getApdexStats(MetricSpec.lookup(MetricNames.APDEX + "/Uri" + path)).recordApdexResponseTime(time);
 						} else {
 							StatsEngine.getResponseTimeStats((String)key).recordResponseTime(time);
 						} 
