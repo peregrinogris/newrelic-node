@@ -111,7 +111,7 @@ public class MonitorHandler extends IoHandlerAdapter {
 				boolean failed = ((status < 200) || (status > 399));
 				if (failed) {
 					for (int i = 0; i < calls; i++) {
-						reportAppError(msg.toString(), status, path, method, timespent);
+						reportAppError(json, status, path, msg.toString());
 					}
 				}
 			}
@@ -177,15 +177,21 @@ public class MonitorHandler extends IoHandlerAdapter {
 		}
 	}
 
-	private static void reportAppError(String logLine, long status, String path, String method, JSONObject timespent) {
+	private static void reportAppError(JSONObject json, long status, String path, String logLine) {
 		Map<String, Object> errorParams = Maps.newHashMap();
+		String error = "Unknow";
 		errorParams.put(RequestDispatcherTracer.REQUEST_PARAMETERS_PARAMETER_NAME, Collections.EMPTY_MAP);
 		errorParams.put("Status", (int)status);
-		errorParams.put("Method", method);
-		errorParams.put("Timespent", timespent.toJSONString());
 		errorParams.put("Log Line", logLine);
+		for (Object key : json.keySet()) {
+			Object object = json.get(key);
+			errorParams.put(key.toString(), object);
+			if (key instanceof String && "error".equalsIgnoreCase((String)key) && object instanceof String) {
+				error = (String)object;
+			}
+		}
 		Agent.instance().getDefaultRPMService().getErrorService().reportError(new HttpTracedError(path,
-				(int)status,"HTTP - " + status,path,errorParams,System.currentTimeMillis()));
+				(int)status,"HTTP - " + status, error, errorParams, System.currentTimeMillis()));
 	}
 
 	private void reportParserError(String logLine, Throwable t) {
