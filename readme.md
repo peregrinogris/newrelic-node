@@ -58,8 +58,8 @@ Cada timespent es independiente en el dashboard de newrelic, se pueden enviar va
 		httpStatus:number, 
 		httpMethod:string, 
 		custom_metric:[
-			{name:string, type:(counter|time), value:(numbre|double) }, 
-			{name:string, type:(counter|time), value:(number|double) }
+			{name:string, type:counter, value:(numbre|double|string) }, 
+			{name:string, type:time, value:(number|double) }
 		],
 		calls: number}
 
