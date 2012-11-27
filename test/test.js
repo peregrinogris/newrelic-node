@@ -322,9 +322,10 @@ var app = express();
 app.use(newrelic.express);
 app.listen(3000);
 app.get('/express/:status/:sleep', function(req, res){	
-	require('sleep').sleep(parseInt(req.param('sleep')));
-	res.writeHead(parseInt(req.param('status')), { "status" : req.param('status'), "sleep" : req.param('sleep')});
-	res.end();
+		setTimeout(function () {
+			res.writeHead(parseInt(req.param('status')), { "status" : req.param('status'), "sleep" : req.param('sleep')});
+			res.end();
+		}, req.param('sleep'));
 });
 
 
@@ -333,7 +334,7 @@ describe("express integration" ,function(){
 	this.timeout(5000);
 
 	request({
-       	        url:"http://127.0.0.1:3000/express/200/1",
+       	        url:"http://127.0.0.1:3000/express/200/1000",
        	        method:"GET",
        	        jar: false
        	    },function(error,response,body){
@@ -345,10 +346,10 @@ describe("express integration" ,function(){
 	});
 
     it("test with express status 500", function(done){
-	this.timeout(5000);
+	this.timeout(6000);
 
 	request({
-       	        url:"http://127.0.0.1:3000/express/500/1",
+       	        url:"http://127.0.0.1:3000/express/500/5000",
        	        method:"GET",
        	        jar: false
        	    },function(error,response,body){

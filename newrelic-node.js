@@ -154,7 +154,7 @@ NewRelic.prototype.logWebTransactionExternalAll = function(req, res, timespent){
 
 NewRelic.prototype.express = function (req, res, next) {
 	var startDate = new Date();
-	req.on ('end', function () {
+	res.on ('finish', function () {
 		module.exports.logRequest(req, res, Date.now()-startDate.getTime()); 
 	});
 	next();
