@@ -12,16 +12,17 @@ Editar el archivo newrelic/newrelic.yml con la license_key y app_name de la apli
 
 ## Uso manual:
 	var newrelic = require( "newrelic-node" );
+	var startDate = new Date();
 	
-	newrelic.logRequest(request, response, timespent);
+	newrelic.logRequest(request, response, Date.now()-startDate.getTime());
 	o
-	newrelic.log({timespent:{"URI_WEB_TRANSACTION":5000}, 
+	newrelic.log({timespent:{"URI_WEB_TRANSACTION":Date.now()-startDate.getTime()}, 
 		path:"/test", httpStatus:200, httpMethod:"GET"});
 	o
-	newrelic.log({timespent:{"URI_WEB_TRANSACTION":5000, WEB_TRANSACTION_EXTERNAL_ALL: 1000}}, }
+	newrelic.log({timespent:{"URI_WEB_TRANSACTION":Date.now()-startDate.getTime(), WEB_TRANSACTION_EXTERNAL_ALL: 1000}}, }
 		path:"/test", httpStatus:200, httpMethod:"GET"});
 	o
-	newrelic.log({timespent:{"URI_WEB_TRANSACTION":100}, 
+	newrelic.log({timespent:{"URI_WEB_TRANSACTION":Date.now()-startDate.getTime()}, 
 		path:"/test", httpStatus:200, httpMethod:"GET", calls:100}); //simula 100 request
 	
 ## Loguear errores manualmente:
