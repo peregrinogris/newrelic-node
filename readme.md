@@ -71,6 +71,9 @@ Para que no levante el proceso en entorno de desarrollo se puede usar:
 ## Requisitos:
 JAVA 1.6
 
+## Empaquetar:
+	npm publish
+
 ## Como funciona?
 Como newrelic no tiene soporte nativo para nodejs, lo que hace el modulo es levantar un proceso java que loguea en newrelic. El proceso java usa MINA para comunicarse con nodejs.
 
