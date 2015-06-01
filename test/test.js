@@ -75,8 +75,8 @@ describe("manual logs" ,function(){
     it("controla que el proceso java este escuchando en el puerto",function(done){
 	this.timeout(5000);
 	//duermo 1 segundo para q levanta el server
-	exec("sleep 3 && netstat -tpan | grep LISTEN | grep 9999",  function (error, stdout, stderr) {
-                stdout.should.include("9999");
+	exec("sleep 3 && netstat -tpan | grep LISTEN | grep 9990",  function (error, stdout, stderr) {
+                stdout.should.include("9990");
 		done()
 	});
     })

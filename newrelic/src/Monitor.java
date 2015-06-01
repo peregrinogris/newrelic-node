@@ -37,7 +37,7 @@ public class Monitor  {
 			handler.setBuffer(Integer.valueOf(cmd.getOptionValue("buffer")));
         acceptor.setHandler(handler);
         
-        int port = cmd.hasOption("port") ? Integer.valueOf(cmd.getOptionValue("port")) : 9999;
+        int port = cmd.hasOption("port") ? Integer.valueOf(cmd.getOptionValue("port")) : 9990;
        	acceptor.bind(new InetSocketAddress(port));
         System.out.println("Listening on port " + port);
 	}

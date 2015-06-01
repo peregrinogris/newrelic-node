@@ -3,12 +3,23 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
 	<classpathentry kind="lib" path="lib/guava-r05.jar"/>
-	<classpathentry kind="lib" path="lib/mina-core-1.1.7.jar" sourcepath="/home/mrege/Temporales/mina-1.1.7/mina-core-1.1.7-sources.jar"/>
-	<classpathentry kind="lib" path="lib/mina-integration-jmx-1.1.7.jar"/>
 	<classpathentry kind="lib" path="lib/newrelic.jar"/>
 	<classpathentry kind="lib" path="lib/commons-lang-2.6.jar"/>
 	<classpathentry kind="lib" path="lib/commons-logging-1.0.3.jar"/>
-	<classpathentry kind="lib" path="lib/mina-filter-compression-1.1.7.jar"/>
-	<classpathentry kind="lib" path="lib/slf4j-api-1.6.1.jar"/>
+	<classpathentry kind="lib" path="/home/mrege/Workspace/newrelic-node/newrelic/lib/commons-cli-1.2.jar"/>
+	<classpathentry kind="lib" path="/home/mrege/Workspace/newrelic-node/newrelic/lib/commons-lang-2.6.jar"/>
+	<classpathentry kind="lib" path="/home/mrege/Workspace/newrelic-node/newrelic/lib/commons-logging-1.0.3.jar"/>
+	<classpathentry kind="lib" path="/home/mrege/Workspace/newrelic-node/newrelic/lib/guava-r05.jar"/>
+	<classpathentry kind="lib" path="/home/mrege/Workspace/newrelic-node/newrelic/lib/mina-core-2.0.7.jar"/>
+	<classpathentry kind="lib" path="/home/mrege/Workspace/newrelic-node/newrelic/lib/mina-example-2.0.7.jar"/>
+	<classpathentry kind="lib" path="/home/mrege/Workspace/newrelic-node/newrelic/lib/mina-filter-compression-2.0.7.jar"/>
+	<classpathentry kind="lib" path="/home/mrege/Workspace/newrelic-node/newrelic/lib/mina-integration-beans-2.0.7.jar"/>
+	<classpathentry kind="lib" path="/home/mrege/Workspace/newrelic-node/newrelic/lib/mina-integration-jmx-2.0.7.jar"/>
+	<classpathentry kind="lib" path="/home/mrege/Workspace/newrelic-node/newrelic/lib/mina-integration-ognl-2.0.7.jar"/>
+	<classpathentry kind="lib" path="/home/mrege/Workspace/newrelic-node/newrelic/lib/mina-integration-xbean-2.0.7.jar"/>
+	<classpathentry kind="lib" path="/home/mrege/Workspace/newrelic-node/newrelic/lib/mina-statemachine-2.0.7.jar"/>
+	<classpathentry kind="lib" path="/home/mrege/Workspace/newrelic-node/newrelic/lib/mina-transport-apr-2.0.7.jar"/>
+	<classpathentry kind="lib" path="/home/mrege/Workspace/newrelic-node/newrelic/lib/newrelic.jar"/>
+	<classpathentry kind="lib" path="/home/mrege/Workspace/newrelic-node/newrelic/lib/slf4j-api-1.6.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

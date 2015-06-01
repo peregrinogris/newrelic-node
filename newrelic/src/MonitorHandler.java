@@ -185,13 +185,13 @@ public class MonitorHandler extends IoHandlerAdapter {
 		errorParams.put("Log Line", logLine);
 		for (Object key : json.keySet()) {
 			Object object = json.get(key);
-			errorParams.put(key.toString(), object);
+			errorParams.put(key.toString(), object.toString());
 			if (key instanceof String && "error".equalsIgnoreCase((String)key) && object instanceof String) {
 				error = (String)object;
 			}
 		}
 		Agent.instance().getDefaultRPMService().getErrorService().reportError(new HttpTracedError(path,
-				(int)status,"HTTP - " + status, error, errorParams, System.currentTimeMillis()));
+				(int)status, error, path, errorParams, System.currentTimeMillis()));
 	}
 
 	private void reportParserError(String logLine, Throwable t) {
