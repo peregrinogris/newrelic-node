@@ -1,3 +1,8 @@
+# MÓDULO DEPRECADO
+## Si necesitás interactuar con New Relic, por favor usá el módulo oficial [newrelic/node-newrelic](https://github.com/newrelic/node-newrelic)
+
+<hr>
+
 Agente de newrelic para node.
 
 ## Instalación
